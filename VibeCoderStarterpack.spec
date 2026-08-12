@@ -1,12 +1,19 @@
 # -*- mode: python ; coding: utf-8 -*-
+from PyInstaller.utils.hooks import copy_metadata
+
+datas = [('assets', 'assets')]
+datas += copy_metadata('pymatting')
+datas += copy_metadata('rembg')
+datas += copy_metadata('pooch')
+datas += copy_metadata('onnxruntime')
 
 
 a = Analysis(
     ['src\\main.py'],
     pathex=['src'],
     binaries=[],
-    datas=[],
-    hiddenimports=[],
+    datas=datas,
+    hiddenimports=['rembg', 'vtracer', 'onnxruntime', 'PIL'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -32,6 +39,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['assets\\app_icon.ico'],
 )
 coll = COLLECT(
     exe,

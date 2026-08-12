@@ -1,6 +1,16 @@
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QLabel, 
                                QHBoxLayout, QPushButton, QGridLayout, QFrame)
 from PySide6.QtCore import Qt, Signal
+from PySide6.QtGui import QPixmap
+import os
+import sys
+
+def resource_path(relative_path):
+    if getattr(sys, 'frozen', False):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    return os.path.join(base_path, relative_path)
 
 class ToolCard(QFrame):
     clicked = Signal(str)
@@ -26,8 +36,10 @@ class ToolCard(QFrame):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(20, 20, 20, 20)
         
-        icon_lbl = QLabel(icon)
-        icon_lbl.setStyleSheet("font-size: 32px; border: none; background: transparent;")
+        icon_lbl = QLabel()
+        icon_pixmap = QPixmap(icon)
+        icon_lbl.setPixmap(icon_pixmap.scaled(32, 32, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        icon_lbl.setStyleSheet("border: none; background: transparent;")
         layout.addWidget(icon_lbl)
         
         title_lbl = QLabel(title)
@@ -103,19 +115,23 @@ class DashboardWidget(QWidget):
         grid_layout.setSpacing(20)
         
         # Tool Cards
-        design_card = ToolCard("🎨 Design Tools", "Access color palettes, typography, icons, and layout utilities.", "🎨", "Design Tools")
+        design_icon = resource_path(os.path.join("assets", "icons", "design.svg"))
+        design_card = ToolCard("Design Tools", "Access color palettes, typography, icons, and layout utilities.", design_icon, "Design Tools")
         design_card.clicked.connect(self.request_navigate.emit)
         grid_layout.addWidget(design_card, 0, 0)
         
-        dev_card = ToolCard("💻 Developer Tools", "JSON formatters, regex testers, and base64 encoders.", "💻", "Developer Tools")
+        dev_icon = resource_path(os.path.join("assets", "icons", "developer.svg"))
+        dev_card = ToolCard("Developer Tools", "JSON formatters, regex testers, and base64 encoders.", dev_icon, "Developer Tools")
         dev_card.clicked.connect(self.request_navigate.emit)
         grid_layout.addWidget(dev_card, 0, 1)
         
-        mobile_card = ToolCard("📱 Mobile Design", "Interactive glossary of native mobile UI design patterns.", "📱", "Mobile Design")
+        mobile_icon = resource_path(os.path.join("assets", "icons", "mobile.svg"))
+        mobile_card = ToolCard("Mobile Design", "Interactive glossary of native mobile UI design patterns.", mobile_icon, "Mobile Design")
         mobile_card.clicked.connect(self.request_navigate.emit)
         grid_layout.addWidget(mobile_card, 1, 0)
         
-        settings_card = ToolCard("⚙️ Settings", "Configure your application preferences and themes.", "⚙️", "Settings")
+        settings_icon = resource_path(os.path.join("assets", "icons", "settings.svg"))
+        settings_card = ToolCard("Settings", "Configure your application preferences and themes.", settings_icon, "Settings")
         settings_card.clicked.connect(self.request_navigate.emit)
         grid_layout.addWidget(settings_card, 1, 1)
 

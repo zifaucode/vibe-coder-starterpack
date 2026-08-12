@@ -5,6 +5,9 @@ from .tools.regex_tester import RegexTesterTool
 from .tools.shadow_generator import ShadowGeneratorTool
 from .tools.border_radius import BorderRadiusTool
 from .tools.css_generator import CSSGeneratorTool
+from .tools.remove_background import RemoveBackgroundTool
+from .tools.image_converter import ImageConverterTool
+from .tools.image_compressor import ImageCompressorTool
 
 class DeveloperModuleView(QWidget):
     def __init__(self, parent=None):
@@ -72,5 +75,17 @@ class DeveloperModuleView(QWidget):
         # 6. CSS Generator
         self.css_gen = CSSGeneratorTool()
         self.tabs.addTab(self.css_gen, "CSS Generator")
+
+        # 7. Remove Background
+        self.remove_bg = RemoveBackgroundTool()
+        self.tabs.addTab(self.remove_bg, "Remove BG")
+
+        # 8. Image Converter
+        self.img_conv = ImageConverterTool()
+        self.tabs.addTab(self.img_conv, "Convert Image")
+
+        # 9. Image Compressor
+        self.img_comp = ImageCompressorTool()
+        self.tabs.addTab(self.img_comp, "Compress Image")
 
         layout.addWidget(self.tabs)

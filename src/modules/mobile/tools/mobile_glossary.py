@@ -25,8 +25,9 @@ class GlossaryItem(QWidget):
         sim_layout.setAlignment(Qt.AlignCenter)
         
         self.phone = QFrame()
-        self.phone.setFixedSize(320, 640)
-        self.phone.setStyleSheet("background-color: #f8fafc; border: 14px solid #0f172a; border-radius: 40px;")
+        self.phone.setFixedSize(320 + 28, 640 + 28)
+        self.phone.setObjectName("mockup_phone")
+        self.phone.setStyleSheet("#mockup_phone { background-color: #ffffff; border: 14px solid #0f172a; border-radius: 40px; }")
         
         self.p_layout = QVBoxLayout(self.phone)
         self.p_layout.setContentsMargins(0, 0, 0, 0)
@@ -111,11 +112,37 @@ class MobileGlossaryTool(QWidget):
         if 0 <= index < self.stack.count():
             self.stack.setCurrentIndex(index)
 
+    def _try_load_mockup(self, item, filename):
+        import os, sys
+        from PySide6.QtGui import QPixmap
+        from PySide6.QtWidgets import QLabel
+        
+        if os.environ.get("GENERATING_MOCKUPS") == "1":
+            return False
+            
+        base_path = sys._MEIPASS if getattr(sys, 'frozen', False) else os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+        mockup_path = os.path.join(base_path, "assets", "mockups", filename)
+        
+        if os.path.exists(mockup_path):
+            item.phone.hide()
+            mockup_lbl = QLabel()
+            pixmap = QPixmap(mockup_path)
+            pixmap = pixmap.scaled(600, 600, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            mockup_lbl.setPixmap(pixmap)
+            mockup_lbl.setAlignment(Qt.AlignCenter)
+            item.phone.parentWidget().layout().addWidget(mockup_lbl)
+            return True
+        return False
+
     # ------------------ PHASE 1 ------------------
     def _build_phase_1(self):
         def setup_splash(item):
+            if self._try_load_mockup(item, "splash_screen.webp"): return
+            # Fallback
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c = QWidget()
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             logo = QFrame()
@@ -124,10 +151,10 @@ class MobileGlossaryTool(QWidget):
             ll = QVBoxLayout(logo)
             ll.setAlignment(Qt.AlignCenter)
             txt = QLabel("V")
-            txt.setStyleSheet("color: white; font-size: 40px; font-weight: bold; background: transparent;")
+            txt.setStyleSheet("color: white; font-size: 40px; font-weight: bold; ")
             ll.addWidget(txt)
             title = QLabel("VibeApp")
-            title.setStyleSheet("color: #0f172a; font-size: 24px; font-weight: bold; margin-top: 20px; background: transparent;")
+            title.setStyleSheet("color: #0f172a; font-size: 24px; font-weight: bold; margin-top: 20px; ")
             title.setAlignment(Qt.AlignCenter)
             l.addWidget(logo, alignment=Qt.AlignCenter)
             l.addWidget(title)
@@ -136,8 +163,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Splash Screen", "Layar pembuka dengan logo aplikasi.", setup_splash)
 
         def setup_onboarding(item):
+            if self._try_load_mockup(item, "onboarding_walkthrough.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             img = QFrame()
@@ -145,10 +174,10 @@ class MobileGlossaryTool(QWidget):
             img.setStyleSheet("background-color: #f1f5f9; border-radius: 100px; border: 2px dashed #cbd5e1;")
             title = QLabel("Welcome to Vibe")
             title.setAlignment(Qt.AlignCenter)
-            title.setStyleSheet("color: #0f172a; font-size: 20px; font-weight: bold; margin-top: 24px; background: transparent;")
+            title.setStyleSheet("color: #0f172a; font-size: 20px; font-weight: bold; margin-top: 24px; ")
             desc = QLabel("Discover the best UI design patterns.")
             desc.setAlignment(Qt.AlignCenter)
-            desc.setStyleSheet("color: #64748b; font-size: 14px; background: transparent;")
+            desc.setStyleSheet("color: #64748b; font-size: 14px; ")
             dots = QWidget()
             dl = QHBoxLayout(dots)
             dl.setAlignment(Qt.AlignCenter)
@@ -167,8 +196,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Onboarding / Walkthrough", "Tutorial singkat atau pengenalan fitur saat aplikasi pertama kali diinstal.", setup_onboarding)
 
         def setup_hero(item):
+            if self._try_load_mockup(item, "hero_hero_image.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #f8fafc; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #f8fafc; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setContentsMargins(0,0,0,0)
             l.setAlignment(Qt.AlignTop)
@@ -178,9 +209,9 @@ class MobileGlossaryTool(QWidget):
             hl = QVBoxLayout(hero)
             hl.setAlignment(Qt.AlignCenter)
             ht = QLabel("Explore Nature")
-            ht.setStyleSheet("color: white; font-size: 28px; font-weight: bold; background: transparent;")
+            ht.setStyleSheet("color: white; font-size: 28px; font-weight: bold; ")
             hs = QLabel("Find your next adventure")
-            hs.setStyleSheet("color: #d1fae5; font-size: 14px; background: transparent;")
+            hs.setStyleSheet("color: #d1fae5; font-size: 14px; ")
             hl.addWidget(ht, alignment=Qt.AlignCenter)
             hl.addWidget(hs, alignment=Qt.AlignCenter)
             l.addWidget(hero)
@@ -190,8 +221,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Hero (Hero Image)", "Banner visual besar di bagian atas layar untuk menarik perhatian pengguna.", setup_hero)
 
         def setup_bottomnav(item):
+            if self._try_load_mockup(item, "bottom_navigation_tab_bar.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #f8fafc; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #f8fafc; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setContentsMargins(0,0,0,0)
             l.setAlignment(Qt.AlignBottom)
@@ -208,10 +241,10 @@ class MobileGlossaryTool(QWidget):
                 bl.setSpacing(4)
                 bl.setAlignment(Qt.AlignCenter)
                 ic = QLabel(icon)
-                ic.setStyleSheet(f"font-size: 20px; color: {'#3b82f6' if active else '#94a3b8'}; background: transparent;")
+                ic.setStyleSheet(f"font-size: 20px; color: {'#3b82f6' if active else '#94a3b8'}; ")
                 ic.setAlignment(Qt.AlignCenter)
                 lb = QLabel(label)
-                lb.setStyleSheet(f"font-size: 10px; font-weight: {'bold' if active else 'normal'}; color: {'#3b82f6' if active else '#94a3b8'}; background: transparent;")
+                lb.setStyleSheet(f"font-size: 10px; font-weight: {'bold' if active else 'normal'}; color: {'#3b82f6' if active else '#94a3b8'}; ")
                 lb.setAlignment(Qt.AlignCenter)
                 bl.addWidget(ic)
                 bl.addWidget(lb)
@@ -222,8 +255,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Bottom Navigation (Tab Bar)", "Menu navigasi utama di bagian bawah layar.", setup_bottomnav)
 
         def setup_hamburger(item):
+            if self._try_load_mockup(item, "hamburger_menu_drawer.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #f8fafc; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #f8fafc; border-radius: 26px; }")
             l = QHBoxLayout(c)
             l.setContentsMargins(0,0,0,0)
             drawer = QFrame()
@@ -233,11 +268,11 @@ class MobileGlossaryTool(QWidget):
             dl.setAlignment(Qt.AlignTop)
             dl.setContentsMargins(20,40,20,20)
             header = QLabel("Menu")
-            header.setStyleSheet("font-size: 20px; font-weight: bold; color: #0f172a; margin-bottom: 20px; background: transparent;")
+            header.setStyleSheet("font-size: 20px; font-weight: bold; color: #0f172a; margin-bottom: 20px; ")
             dl.addWidget(header)
             for m in ["Dashboard", "Settings", "Help", "Logout"]:
                 mi = QLabel(m)
-                mi.setStyleSheet("font-size: 16px; color: #475569; padding: 12px 0px; border-bottom: 1px solid #f1f5f9; background: transparent;")
+                mi.setStyleSheet("font-size: 16px; color: #475569; padding: 12px 0px; border-bottom: 1px solid #f1f5f9; ")
                 dl.addWidget(mi)
             content = QWidget()
             content.setStyleSheet("background-color: rgba(15, 23, 42, 0.1); border-top-right-radius: 26px; border-bottom-right-radius: 26px;")
@@ -248,8 +283,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Hamburger Menu (Drawer)", "Menu navigasi samping yang muncul saat ikon garis tiga ditekan.", setup_hamburger)
 
         def setup_appbar(item):
+            if self._try_load_mockup(item, "top_app_bar_header.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #f8fafc; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #f8fafc; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setContentsMargins(0,0,0,0)
             l.setAlignment(Qt.AlignTop)
@@ -259,12 +296,12 @@ class MobileGlossaryTool(QWidget):
             hl = QHBoxLayout(header)
             hl.setContentsMargins(16,0,16,0)
             back = QLabel("←")
-            back.setStyleSheet("font-size: 20px; color: #0f172a; background: transparent;")
+            back.setStyleSheet("font-size: 20px; color: #0f172a; ")
             title = QLabel("Settings")
-            title.setStyleSheet("font-size: 18px; font-weight: bold; color: #0f172a; background: transparent;")
+            title.setStyleSheet("font-size: 18px; font-weight: bold; color: #0f172a; ")
             title.setAlignment(Qt.AlignCenter)
             search = QLabel("🔍")
-            search.setStyleSheet("font-size: 16px; color: #0f172a; background: transparent;")
+            search.setStyleSheet("font-size: 16px; color: #0f172a; ")
             hl.addWidget(back)
             hl.addWidget(title, 1)
             hl.addWidget(search)
@@ -275,8 +312,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Top App Bar (Header)", "Area atas berisi judul, navigasi kembali, atau aksi utama halaman.", setup_appbar)
 
         def setup_segmented(item):
+            if self._try_load_mockup(item, "segmented_control_tabs.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignTop)
             l.setContentsMargins(0, 20, 0, 0)
@@ -292,7 +331,7 @@ class MobileGlossaryTool(QWidget):
             t1.setStyleSheet("background-color: white; border-radius: 6px; font-weight: bold; color: #0f172a; border: 1px solid #e2e8f0;")
             t2 = QLabel("Calls")
             t2.setAlignment(Qt.AlignCenter)
-            t2.setStyleSheet("background-color: transparent; color: #64748b;")
+            t2.setStyleSheet(" color: #64748b;")
             sl.addWidget(t1, 1)
             sl.addWidget(t2, 1)
             l.addWidget(seg, alignment=Qt.AlignHCenter)
@@ -301,21 +340,25 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Segmented Control (Tabs)", "Tombol tab datar (biasanya berisi 2-3 opsi) untuk berpindah tampilan di layar yang sama.", setup_segmented)
 
         def setup_breadcrumbs(item):
+            if self._try_load_mockup(item, "breadcrumbs.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignTop)
             l.setContentsMargins(20,40,20,20)
             bc = QLabel("Home  <span style='color:#cbd5e1;'>&gt;</span>  Electronics  <span style='color:#cbd5e1;'>&gt;</span>  <b>Laptops</b>")
-            bc.setStyleSheet("font-size: 14px; color: #64748b; background: transparent;")
+            bc.setStyleSheet("font-size: 14px; color: #64748b; ")
             l.addWidget(bc)
             item.phone.setStyleSheet("background-color: #ffffff; border: 14px solid #0f172a; border-radius: 40px;")
             item.add_widget_to_phone(c, 1)
         self._add_item("Breadcrumbs", "Jalur navigasi teks yang menunjukkan posisi halaman saat ini.", setup_breadcrumbs)
 
         def setup_safe(item):
+            if self._try_load_mockup(item, "safe_area.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setContentsMargins(0,0,0,0)
             top_danger = QFrame()
@@ -332,7 +375,7 @@ class MobileGlossaryTool(QWidget):
             sl = QVBoxLayout(safe)
             lbl = QLabel("Safe Area\n(Aman untuk konten)")
             lbl.setAlignment(Qt.AlignCenter)
-            lbl.setStyleSheet("color: #047857; font-weight: bold; background: transparent;")
+            lbl.setStyleSheet("color: #047857; font-weight: bold; ")
             sl.addWidget(lbl)
             bot_danger = QFrame()
             bot_danger.setFixedHeight(34)
@@ -347,8 +390,10 @@ class MobileGlossaryTool(QWidget):
     # ------------------ PHASE 2 ------------------
     def _build_phase_2(self):
         def setup_cta(item):
+            if self._try_load_mockup(item, "cta_call_to_action.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #f8fafc; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #f8fafc; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setContentsMargins(0,0,0,0)
             l.setAlignment(Qt.AlignBottom)
@@ -367,8 +412,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("CTA (Call to Action)", "Tombol utama yang dirancang menonjol agar pengguna melakukan tindakan penting.", setup_cta)
 
         def setup_fab(item):
+            if self._try_load_mockup(item, "fab_floating_action_button.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #f8fafc; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #f8fafc; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setContentsMargins(0,0,24,24)
             l.setAlignment(Qt.AlignBottom | Qt.AlignRight)
@@ -382,8 +429,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("FAB (Floating Action Button)", "Tombol melayang berbentuk bulat, biasanya di pojok kanan bawah.", setup_fab)
 
         def setup_modal(item):
+            if self._try_load_mockup(item, "modal_dialog.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: rgba(15, 23, 42, 0.5); border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: rgba(15, 23, 42, 0.5); border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             l.setContentsMargins(32, 0, 32, 0)
@@ -392,12 +441,12 @@ class MobileGlossaryTool(QWidget):
             ml = QVBoxLayout(modal)
             ml.setContentsMargins(24, 24, 24, 24)
             title = QLabel("Delete Item?")
-            title.setStyleSheet("font-size: 18px; font-weight: bold; color: #0f172a; background: transparent;")
+            title.setStyleSheet("font-size: 18px; font-weight: bold; color: #0f172a; ")
             desc = QLabel("Are you sure you want to delete this item? This action cannot be undone.")
             desc.setWordWrap(True)
-            desc.setStyleSheet("font-size: 14px; color: #475569; margin-top: 8px; background: transparent;")
+            desc.setStyleSheet("font-size: 14px; color: #475569; margin-top: 8px; ")
             acts = QWidget()
-            acts.setStyleSheet("background: transparent;")
+            acts.setStyleSheet("")
             al = QHBoxLayout(acts)
             al.setAlignment(Qt.AlignRight)
             al.setContentsMargins(0,0,0,0)
@@ -417,8 +466,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Modal / Dialog", "Jendela pop-up yang muncul di tengah layar.", setup_modal)
 
         def setup_bottomsheet(item):
+            if self._try_load_mockup(item, "bottom_sheet.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: rgba(15, 23, 42, 0.5); border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: rgba(15, 23, 42, 0.5); border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setContentsMargins(0,0,0,0)
             l.setAlignment(Qt.AlignBottom)
@@ -434,7 +485,7 @@ class MobileGlossaryTool(QWidget):
             sl.addSpacing(16)
             for t in ["Share", "Copy Link", "Report"]:
                 lbl = QLabel(t)
-                lbl.setStyleSheet("font-size: 16px; color: #0f172a; padding: 12px 20px; background: transparent;")
+                lbl.setStyleSheet("font-size: 16px; color: #0f172a; padding: 12px 20px; ")
                 sl.addWidget(lbl)
             l.addWidget(sheet)
             item.phone.setStyleSheet("background-color: #f8fafc; border: 14px solid #0f172a; border-radius: 40px;")
@@ -442,8 +493,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Bottom Sheet", "Panel menu yang muncul menyelinap dari bawah layar.", setup_bottomsheet)
 
         def setup_snackbar(item):
+            if self._try_load_mockup(item, "snackbar_toast.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #f8fafc; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #f8fafc; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setContentsMargins(16, 0, 16, 24)
             l.setAlignment(Qt.AlignBottom)
@@ -453,9 +506,9 @@ class MobileGlossaryTool(QWidget):
             sl = QHBoxLayout(snack)
             sl.setContentsMargins(16, 0, 16, 0)
             txt = QLabel("Item saved to favorites")
-            txt.setStyleSheet("color: #f8fafc; font-size: 14px; background: transparent;")
+            txt.setStyleSheet("color: #f8fafc; font-size: 14px; ")
             act = QLabel("UNDO")
-            act.setStyleSheet("color: #38bdf8; font-weight: bold; background: transparent;")
+            act.setStyleSheet("color: #38bdf8; font-weight: bold; ")
             sl.addWidget(txt, 1)
             sl.addWidget(act)
             l.addWidget(snack)
@@ -464,8 +517,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Snackbar / Toast", "Pesan singkat yang muncul sementara di bagian bawah layar.", setup_snackbar)
 
         def setup_tooltip(item):
+            if self._try_load_mockup(item, "tooltip.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #f8fafc; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #f8fafc; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             tt = QFrame()
@@ -473,10 +528,10 @@ class MobileGlossaryTool(QWidget):
             ttl = QVBoxLayout(tt)
             ttl.setContentsMargins(12, 8, 12, 8)
             txt = QLabel("Hold to record")
-            txt.setStyleSheet("color: #ffffff; font-size: 12px; background: transparent;")
+            txt.setStyleSheet("color: #ffffff; font-size: 12px; ")
             ttl.addWidget(txt)
             icon = QLabel("🎤")
-            icon.setStyleSheet("font-size: 28px; background: transparent; margin-top: 8px;")
+            icon.setStyleSheet("font-size: 28px;  margin-top: 8px;")
             l.addWidget(tt, alignment=Qt.AlignCenter)
             l.addWidget(icon, alignment=Qt.AlignCenter)
             item.phone.setStyleSheet("background-color: #f8fafc; border: 14px solid #0f172a; border-radius: 40px;")
@@ -486,8 +541,10 @@ class MobileGlossaryTool(QWidget):
     # ------------------ PHASE 3 ------------------
     def _build_phase_3(self):
         def setup_card(item):
+            if self._try_load_mockup(item, "card.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #f8fafc; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #f8fafc; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             l.setContentsMargins(24, 0, 24, 0)
@@ -499,7 +556,7 @@ class MobileGlossaryTool(QWidget):
             img.setFixedHeight(140)
             img.setStyleSheet("background-color: #38bdf8; border-top-left-radius: 16px; border-top-right-radius: 16px;")
             info = QWidget()
-            info.setStyleSheet("background: transparent;")
+            info.setStyleSheet("")
             il = QVBoxLayout(info)
             il.setContentsMargins(16, 16, 16, 16)
             t = QLabel("Mount Bromo")
@@ -516,16 +573,18 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Card", "Wadah berbentuk kotak berbatas untuk mengelompokkan informasi.", setup_card)
 
         def setup_carousel(item):
+            if self._try_load_mockup(item, "carousel_slider.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #f8fafc; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #f8fafc; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             l.setContentsMargins(0,0,0,0)
             sa = QScrollArea()
             sa.setWidgetResizable(True)
-            sa.setStyleSheet("border: none; background: transparent;")
+            sa.setStyleSheet("border: none; ")
             sc = QWidget()
-            sc.setStyleSheet("background: transparent;")
+            sc.setStyleSheet("")
             sl = QHBoxLayout(sc)
             sl.setContentsMargins(20, 0, 20, 0)
             for col in ["#f43f5e", "#10b981", "#3b82f6"]:
@@ -540,14 +599,16 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Carousel / Slider", "Kumpulan gambar atau kartu yang bisa digeser (swipe) ke kiri-kanan.", setup_carousel)
 
         def setup_listview(item):
+            if self._try_load_mockup(item, "list_view.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignTop)
             l.setContentsMargins(0, 24, 0, 0)
             for i in range(4):
                 row = QWidget()
-                row.setStyleSheet("background: transparent;")
+                row.setStyleSheet("")
                 rl = QHBoxLayout(row)
                 rl.setContentsMargins(20, 12, 20, 12)
                 av = QFrame()
@@ -569,8 +630,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("List View", "Daftar konten yang tersusun vertikal ke bawah.", setup_listview)
 
         def setup_gridview(item):
+            if self._try_load_mockup(item, "grid_view.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QGridLayout(c)
             l.setContentsMargins(20, 20, 20, 20)
             l.setSpacing(16)
@@ -585,14 +648,16 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Grid View", "Tampilan daftar yang disusun dalam bentuk matriks.", setup_gridview)
         
         def setup_skeleton(item):
+            if self._try_load_mockup(item, "skeleton_loading.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignTop)
             l.setContentsMargins(20, 40, 20, 0)
             for _ in range(2):
                 row = QWidget()
-                row.setStyleSheet("background: transparent;")
+                row.setStyleSheet("")
                 rl = QHBoxLayout(row)
                 rl.setContentsMargins(0, 0, 0, 24)
                 av = QFrame()
@@ -617,13 +682,15 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Skeleton Loading", "Animasi blok abu-abu pengganti loading spinner.", setup_skeleton)
         
         def setup_badge(item):
+            if self._try_load_mockup(item, "badge.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             av_c = QWidget()
             av_c.setFixedSize(60, 60)
-            av_c.setStyleSheet("background: transparent;")
+            av_c.setStyleSheet("")
             av = QFrame(av_c)
             av.setFixedSize(48, 48)
             av.setStyleSheet("background-color: #e2e8f0; border-radius: 24px;")
@@ -641,8 +708,10 @@ class MobileGlossaryTool(QWidget):
     # ------------------ PHASE 4 ------------------
     def _build_phase_4(self):
         def setup_textfield(item):
+            if self._try_load_mockup(item, "text_field__placeholder.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             l.setContentsMargins(24, 0, 24, 0)
@@ -654,7 +723,7 @@ class MobileGlossaryTool(QWidget):
             tfl = QHBoxLayout(tf)
             tfl.setContentsMargins(16, 0, 16, 0)
             ph = QLabel("john.doe@example.com")
-            ph.setStyleSheet("color: #94a3b8; font-size: 14px; background: transparent;")
+            ph.setStyleSheet("color: #94a3b8; font-size: 14px; ")
             tfl.addWidget(ph)
             l.addWidget(lbl)
             l.addWidget(tf)
@@ -663,14 +732,16 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Text Field & Placeholder", "Kotak input tempat pengguna mengetikkan teks.", setup_textfield)
 
         def setup_toggle(item):
+            if self._try_load_mockup(item, "toggle___switch.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             row = QWidget()
             rl = QHBoxLayout(row)
             lbl = QLabel("Dark Mode")
-            lbl.setStyleSheet("font-size: 16px; font-weight: bold; color: #0f172a; background: transparent;")
+            lbl.setStyleSheet("font-size: 16px; font-weight: bold; color: #0f172a; ")
             t_bg = QFrame()
             t_bg.setFixedSize(52, 28)
             t_bg.setStyleSheet("background-color: #2563eb; border-radius: 14px;")
@@ -687,8 +758,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Toggle / Switch", "Tombol geser on/off.", setup_toggle)
         
         def setup_checkbox(item):
+            if self._try_load_mockup(item, "checkbox.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             row = QWidget()
@@ -697,10 +770,10 @@ class MobileGlossaryTool(QWidget):
             cb.setFixedSize(24, 24)
             cb.setStyleSheet("background-color: #2563eb; border-radius: 6px;")
             chk = QLabel("✓", cb)
-            chk.setStyleSheet("color: white; font-weight: bold; font-size: 14px; background: transparent;")
+            chk.setStyleSheet("color: white; font-weight: bold; font-size: 14px; ")
             chk.move(6, 2)
             lbl = QLabel("Remember me")
-            lbl.setStyleSheet("color: #0f172a; font-size: 16px; background: transparent;")
+            lbl.setStyleSheet("color: #0f172a; font-size: 16px; ")
             rl.addWidget(cb)
             rl.addSpacing(12)
             rl.addWidget(lbl)
@@ -711,8 +784,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Checkbox", "Kotak centang untuk memilih satu atau beberapa opsi.", setup_checkbox)
 
         def setup_radio(item):
+            if self._try_load_mockup(item, "radio_button.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             row = QWidget()
@@ -721,7 +796,7 @@ class MobileGlossaryTool(QWidget):
             rb.setFixedSize(24, 24)
             rb.setStyleSheet("background-color: white; border: 6px solid #2563eb; border-radius: 12px;")
             lbl = QLabel("Option 1")
-            lbl.setStyleSheet("color: #0f172a; font-size: 16px; background: transparent;")
+            lbl.setStyleSheet("color: #0f172a; font-size: 16px; ")
             rl.addWidget(rb)
             rl.addSpacing(12)
             rl.addWidget(lbl)
@@ -732,8 +807,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Radio Button", "Pilihan ganda dengan tombol bulat.", setup_radio)
 
         def setup_chips(item):
+            if self._try_load_mockup(item, "chips___tags.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QHBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             for txt, active in [("Design", True), ("Code", False)]:
@@ -748,8 +825,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Chips / Tags", "Komponen kecil lonjong yang mewakili atribut atau filter.", setup_chips)
         
         def setup_slider(item):
+            if self._try_load_mockup(item, "slider.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             track = QFrame()
@@ -770,8 +849,10 @@ class MobileGlossaryTool(QWidget):
     # ------------------ PHASE 5 ------------------
     def _build_phase_5(self):
         def setup_pull(item):
+            if self._try_load_mockup(item, "pull_to_refresh.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #f8fafc; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #f8fafc; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignTop)
             spin_c = QWidget()
@@ -792,8 +873,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Pull to Refresh", "Gestur menarik layar ke bawah.", setup_pull)
         
         def setup_progress(item):
+            if self._try_load_mockup(item, "progress_bar___spinner.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             track = QFrame()
@@ -808,15 +891,17 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Progress Bar / Spinner", "Indikator loading.", setup_progress)
         
         def setup_swipe(item):
+            if self._try_load_mockup(item, "swipe_action.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             row = QFrame()
             row.setFixedSize(240, 70)
             row.setStyleSheet("background-color: #ef4444; border-radius: 12px;")
             del_lbl = QLabel("Delete", row)
-            del_lbl.setStyleSheet("color: white; font-weight: bold; background: transparent;")
+            del_lbl.setStyleSheet("color: white; font-weight: bold; ")
             del_lbl.move(180, 25)
             fore = QFrame(row)
             fore.setFixedSize(190, 70)
@@ -830,8 +915,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Swipe Action", "Gestur menggeser item.", setup_swipe)
         
         def setup_accordion(item):
+            if self._try_load_mockup(item, "accordion_expandable.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignTop)
             l.setContentsMargins(20, 40, 20, 0)
@@ -857,8 +944,10 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Accordion / Expandable", "Daftar menu yang bisa diperluas.", setup_accordion)
         
         def setup_stepper(item):
+            if self._try_load_mockup(item, "stepper_wizard.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #ffffff; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #ffffff; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             step = QWidget()
@@ -868,7 +957,7 @@ class MobileGlossaryTool(QWidget):
             c1.setFixedSize(30, 30)
             c1.setStyleSheet("background-color: #10b981; border-radius: 15px;")
             n1 = QLabel("✓", c1)
-            n1.setStyleSheet("color: white; font-weight: bold; background: transparent;")
+            n1.setStyleSheet("color: white; font-weight: bold; ")
             n1.move(9, 7)
             l1 = QFrame()
             l1.setFixedSize(40, 2)
@@ -877,7 +966,7 @@ class MobileGlossaryTool(QWidget):
             c2.setFixedSize(30, 30)
             c2.setStyleSheet("background-color: #2563eb; border-radius: 15px;")
             n2 = QLabel("2", c2)
-            n2.setStyleSheet("color: white; font-weight: bold; background: transparent;")
+            n2.setStyleSheet("color: white; font-weight: bold; ")
             n2.move(10, 7)
             l2 = QFrame()
             l2.setFixedSize(40, 2)
@@ -886,7 +975,7 @@ class MobileGlossaryTool(QWidget):
             c3.setFixedSize(30, 30)
             c3.setStyleSheet("background-color: #e2e8f0; border-radius: 15px;")
             n3 = QLabel("3", c3)
-            n3.setStyleSheet("color: #94a3b8; font-weight: bold; background: transparent;")
+            n3.setStyleSheet("color: #94a3b8; font-weight: bold; ")
             n3.move(10, 7)
             sl.addWidget(c1)
             sl.addWidget(l1)
@@ -901,16 +990,18 @@ class MobileGlossaryTool(QWidget):
     # ------------------ PHASE 6 ------------------
     def _build_phase_6(self):
         def setup_empty(item):
+            if self._try_load_mockup(item, "empty_state.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #f8fafc; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #f8fafc; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             icon = QLabel("📦")
-            icon.setStyleSheet("font-size: 60px; background: transparent;")
+            icon.setStyleSheet("font-size: 60px; ")
             title = QLabel("No Data Found")
-            title.setStyleSheet("font-size: 20px; font-weight: bold; color: #0f172a; margin-top: 16px; background: transparent;")
+            title.setStyleSheet("font-size: 20px; font-weight: bold; color: #0f172a; margin-top: 16px; ")
             desc = QLabel("There's nothing here yet.")
-            desc.setStyleSheet("color: #64748b; background: transparent;")
+            desc.setStyleSheet("color: #64748b; ")
             l.addWidget(icon, alignment=Qt.AlignCenter)
             l.addWidget(title, alignment=Qt.AlignCenter)
             l.addWidget(desc, alignment=Qt.AlignCenter)
@@ -919,14 +1010,16 @@ class MobileGlossaryTool(QWidget):
         self._add_item("Empty State", "Layar ketika belum ada data.", setup_empty)
         
         def setup_404(item):
+            if self._try_load_mockup(item, "error_404.webp"): return
             c = QWidget()
-            c.setStyleSheet("background-color: #f8fafc; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #f8fafc; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             title = QLabel("404")
-            title.setStyleSheet("font-size: 80px; font-weight: bold; color: #2563eb; background: transparent;")
+            title.setStyleSheet("font-size: 80px; font-weight: bold; color: #2563eb; ")
             desc = QLabel("Page Not Found")
-            desc.setStyleSheet("font-size: 18px; color: #475569; background: transparent;")
+            desc.setStyleSheet("font-size: 18px; color: #475569; ")
             btn = QLabel("Go Back")
             btn.setStyleSheet("background-color: #0f172a; color: white; padding: 12px 24px; border-radius: 12px; margin-top: 24px;")
             l.addWidget(title, alignment=Qt.AlignCenter)
@@ -938,11 +1031,12 @@ class MobileGlossaryTool(QWidget):
         
         def setup_onboardingscreen(item):
             c = QWidget()
-            c.setStyleSheet("background-color: #2563eb; border-radius: 26px;")
+            c.setObjectName("cont")
+            c.setStyleSheet("#cont { background-color: #2563eb; border-radius: 26px; }")
             l = QVBoxLayout(c)
             l.setAlignment(Qt.AlignCenter)
             title = QLabel("Ready to Start?")
-            title.setStyleSheet("font-size: 24px; font-weight: bold; color: white; background: transparent;")
+            title.setStyleSheet("font-size: 24px; font-weight: bold; color: white; ")
             btn = QLabel("Get Started")
             btn.setStyleSheet("background-color: white; color: #2563eb; font-weight: bold; padding: 14px 40px; border-radius: 20px; font-size: 16px; margin-top: 30px;")
             l.addWidget(title, alignment=Qt.AlignCenter)

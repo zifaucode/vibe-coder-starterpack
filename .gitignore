@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# Build directories
+dist/
+build/
+*.egg-info/
+
+# PyInstaller
+*.spec
+
+# UI/Node
+ui/node_modules/
+ui/dist/
+ui/.npm/
+ui/coverage/
+
+# OS Files
+.DS_Store
+Thumbs.db

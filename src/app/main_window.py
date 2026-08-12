@@ -181,15 +181,10 @@ class MainWindow(QMainWindow):
         if geom:
             self.restoreGeometry(geom)
             
-        last_row = self.settings.value("last_sidebar_row", type=int)
-        if last_row is not None and last_row < self.sidebar_list.count():
-            self.sidebar_list.setCurrentRow(last_row)
-            item = self.sidebar_list.item(last_row)
-            if item:
-                self._on_sidebar_item_clicked(item)
+        default_mode = self.settings.value("default_view_mode", "Dashboard")
+        self.navigate_to(default_mode)
 
     def closeEvent(self, event):
         self.settings.setValue("geometry", self.saveGeometry())
-        self.settings.setValue("last_sidebar_row", self.sidebar_list.currentRow())
         logger.info("Saved local settings and closing app.")
         super().closeEvent(event)
