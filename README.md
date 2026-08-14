@@ -220,6 +220,37 @@ dist/
 
 ---
 
+### 🍎 Panduan Build untuk macOS (MacBook)
+
+PyInstaller **tidak mendukung cross-compilation** (mem-build biner macOS langsung dari OS Windows). Untuk menghasilkan berkas aplikasi **macOS (`.app` / `.dmg` Portable)**, kompilasi harus dijalankan di lingkungan macOS (MacBook atau GitHub Actions Cloud).
+
+#### 1. Kompilasi Langsung di MacBook:
+
+```bash
+# 1. Kompilasi Frontend React
+cd ui && pnpm install && pnpm run build && cd ..
+
+# 2. Buat & Aktifkan Virtual Environment Python
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# 3. Kompilasi Menjadi App Portable macOS (.app)
+pyinstaller --noconfirm --onedir --windowed \
+  --name "VibeCoderStarterpack" \
+  --add-data "ui/dist:ui/dist" \
+  src/main.py
+
+# 4. Bungkus Menjadi File Portable .zip / .dmg Siap Sebar
+zip -r dist/VibeCoderStarterpack_macOS.zip dist/VibeCoderStarterpack.app
+```
+*Hasil aplikasi macOS `.app` / `.zip` akan tersimpan di dalam folder `dist/`.*
+
+#### 2. Kompilasi Otomatis via GitHub Actions (Rekomendasi Bebas Mac):
+Anda dapat memanfaatkan Runner Mac gratis di GitHub Actions (`macos-latest`) dengan membuat workflow `.github/workflows/build-mac.yml` agar GitHub membuatkan file `.dmg` / `.zip` macOS secara otomatis setiap kali Anda merilis versi baru.
+
+---
+
 ## Struktur Proyek
 
 ```text
