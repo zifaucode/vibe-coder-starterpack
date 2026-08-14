@@ -186,26 +186,36 @@ cd ..
 
 ### Langkah 2: Kompilasi PyInstaller Executable
 
-Jalankan berkas script otomatisasi build:
+Terdapat 2 metode kompilasi sesuai kebutuhan pembagian aplikasi:
+
+#### A. Mode Portable Single File (1 Berkas .exe Mandiri — Disarankan)
+Menghasilkan **1 file `.exe` tunggal** yang mengompresi seluruh runtime dan web assets. Berkas ini dapat langsung dibagikan dan dijalankan di komputer manapun tanpa menyertakan folder tambahan.
 
 ```bash
-.\build.bat
+.\venv\Scripts\pyinstaller.exe VibeCoderStarterpack_OneFile.spec --noconfirm --clean
 ```
+*Hasil build tersedia di: `dist/VibeCoderStarterpack_Portable.exe`*
 
-Atau jalankan PyInstaller secara manual menggunakan spesifikasi `.spec`:
+#### B. Mode Standard Directory (Folder Executable)
+Menghasilkan folder executable dengan pemisahan berkas `_internal`.
 
 ```bash
 .\venv\Scripts\pyinstaller.exe VibeCoderStarterpack.spec --noconfirm --clean
 ```
+Atau jalankan skrip otomatisasi di Windows:
+```bash
+.\build.bat
+```
+*Hasil build tersedia di: `dist/VibeCoderStarterpack/VibeCoderStarterpack.exe`*
 
-### Langkah 3: Ambil Hasil Executable
-
-Setelah kompilasi selesai, direktori produk *standalone* tersedia di:
+### Langkah 3: Ringkasan Hasil Build Executable
 
 ```text
-dist/VibeCoderStarterpack/
-├── VibeCoderStarterpack.exe   <-- Executable Utama
-└── _internal/                 <-- Runtime Library & Web Assets
+dist/
+├── VibeCoderStarterpack_Portable.exe  <-- (Disarankan) 1 File Single Executable Siap Sebar
+└── VibeCoderStarterpack/
+    ├── VibeCoderStarterpack.exe       <-- Executable Utama Mode Folder
+    └── _internal/                     <-- Runtime Library & Web Assets
 ```
 
 ---
