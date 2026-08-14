@@ -11,8 +11,10 @@ import ColorPicker from "./pages/Design/ColorPicker"
 import MobileGlossary from "./pages/Design/MobileGlossary"
 import PromptLibrary from "./pages/Resources/PromptLibrary"
 import UiUxGuide from "./pages/Design/UiUxGuide"
+import AboutMe from "./pages/AboutMe"
 import CommandPalette from "./components/CommandPalette"
-import { LayoutDashboard, Pipette, Code, Boxes, Search, Fingerprint, Smartphone, BookOpen, Layers, Rocket, LayoutTemplate, Command } from "lucide-react"
+import vcsLogo from "./assets/vcs-logo.png"
+import { LayoutDashboard, Pipette, Code, Boxes, Search, Fingerprint, Smartphone, BookOpen, Layers, Rocket, LayoutTemplate, Command, User } from "lucide-react"
 
 export default function App() {
   const [appName, setAppName] = useState("VCS")
@@ -67,7 +69,7 @@ export default function App() {
       <aside className="w-[280px] border-r bg-white flex flex-col flex-shrink-0">
         <div className="p-6 border-b flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/vcs-logo.png" alt="VCS Logo" className="w-9 h-9 rounded-xl object-cover border border-black shadow-xs flex-shrink-0" />
+            <img src={vcsLogo} alt="VCS Logo" className="w-9 h-9 rounded-xl object-cover border border-black shadow-xs flex-shrink-0" />
             <h1 className="text-xl font-black text-black tracking-tight">{appName}</h1>
           </div>
           <button
@@ -180,6 +182,18 @@ export default function App() {
             <Fingerprint className="mr-3 h-4 w-4" />
             Base64 Tool
           </Button>
+
+          <div className="pt-6 pb-2 px-3">
+            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">About</p>
+          </div>
+          <Button 
+            onClick={() => setActiveTab("about-me")}
+            variant={activeTab === "about-me" ? "secondary" : "ghost"} 
+            className={`justify-start font-medium h-10 px-3 ${activeTab === "about-me" ? "bg-black text-white hover:bg-black/80" : "text-gray-600 hover:text-black hover:bg-gray-100"}`}
+          >
+            <User className="mr-3 h-4 w-4" />
+            About Me
+          </Button>
         </nav>
       </aside>
 
@@ -201,6 +215,7 @@ export default function App() {
         {activeTab === "mobile-glossary" && <MobileGlossary />}
         {activeTab === "prompt-library" && <PromptLibrary />}
         {activeTab === "ui-ux-guide" && <UiUxGuide />}
+        {activeTab === "about-me" && <AboutMe />}
       </main>
     </div>
   )

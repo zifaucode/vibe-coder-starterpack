@@ -10,6 +10,7 @@ import {
   LayoutTemplate,
   Code,
   Fingerprint,
+  User,
   Command,
   ArrowRight,
   X,
@@ -110,6 +111,14 @@ const COMMAND_ITEMS: CommandItem[] = [
     description: "Enkripsi dan dekripsi teks atau berkas ke format string Base64",
     keywords: ["base64", "encoder", "decoder", "encryption", "hash", "developer"],
     icon: Fingerprint,
+  },
+  {
+    id: "about-me",
+    title: "About Me & Author (zifaucode)",
+    category: "Developer",
+    description: "Informasi pembuat zifaucode dan repository GitHub vibe-coder-starterpack",
+    keywords: ["about", "author", "zifaucode", "github", "repo", "creator", "tentang"],
+    icon: User,
   },
 ];
 

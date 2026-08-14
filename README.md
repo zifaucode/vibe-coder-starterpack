@@ -1,149 +1,235 @@
-# Vibe Coder Starterpack 🚀
+<div align="center">
+  <img src="ui/public/vcs-logo.png" alt="VCS Logo" width="120" height="120" style="border-radius: 24px;" />
 
-![Python Version](https://img.shields.io/badge/python-3.9%2B-blue.svg)
-![PyWebView](https://img.shields.io/badge/UI-PyWebView-green.svg)
-![React](https://img.shields.io/badge/UI-React_Vite-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-purple.svg)
+  <h1>Vibe Coder Starterpack (VCS)</h1>
 
-**Vibe Coder Starterpack (VCS)** is a modern, high-performance desktop application built with Python (PyWebView) and a React/Vite frontend. Designed to be a central hub for developers and UI/UX designers, it brings essential daily tools into one seamless, unified native application—reducing browser tab clutter and accelerating your workflow.
+  <p>
+    <b>Pusat Ekosistem & Template Vibe Coding Terstruktur</b><br>
+    <i>Pilihan Utama Developer Modern untuk Pengkodean AI Presisi & Bebas Halusinasi</i>
+  </p>
 
-With a meticulously crafted **Tailwind CSS** styling architecture on the web frontend, VCS feels native, fluid, and visually stunning.
+  <p>
+    <a href="https://github.com/zifaucode/vibe-coder-starterpack"><img src="https://img.shields.io/badge/Build-Passing-black?style=flat-square" alt="Build Status"></a>
+    <a href="https://github.com/zifaucode/vibe-coder-starterpack"><img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Cross--Platform-black?style=flat-square" alt="Platform"></a>
+    <a href="https://github.com/zifaucode/vibe-coder-starterpack"><img src="https://img.shields.io/badge/Stack-React%20%7C%20TypeScript%20%7C%20PyWebView-black?style=flat-square" alt="Tech Stack"></a>
+    <a href="https://github.com/zifaucode/vibe-coder-starterpack"><img src="https://img.shields.io/badge/License-MIT-black?style=flat-square" alt="License"></a>
+  </p>
+</div>
 
----
+<br>
 
-## 🌟 Features
+**Vibe Coder Starterpack (VCS)** adalah aplikasi desktop native & ekosistem dokumentasi terstruktur untuk pengembang software modern (*Vibe Coders*). VCS menyediakan blueprint dokumen arsitektur (PRD, SDD, DESIGN), strategi pemilihan *tech stack*, panduan rilis produksi (Vercel hingga Docker & VPS), alur kerja UI/UX, perkakas developer monokrom, serta bilah pencarian cerdas **Command Palette (`Ctrl + K`)**.
 
-- **🎨 Design Tools:** Access integrated color palettes, typography guidelines, icon libraries, and layout utilities.
-- **💻 Developer Tools:** Built-in JSON formatters, Regular Expression (Regex) testers, and Base64 encoders/decoders.
-- **📱 Mobile Design Glossary:** An interactive visual glossary of over 35 mobile UI patterns (from Splash Screens to Modals and Snackbars), fully rendered natively.
-- **⚙️ Preferences Engine:** Save your configuration (Theme, Default View Mode) persistently using local system storage (`QSettings`).
-- **⚡ Command Palette:** Hit `Ctrl+K` from anywhere in the app to quickly search and launch tools instantly.
-
----
-
-## 📸 Screenshots
-
-*(Add screenshots of your Dashboard and Mobile Design components here!)*
+Didesain khusus dengan prinsip **Monokrom Minimalis** (Pure Black & White) tanpa warna norak dan tanpa *AI slop*, aplikasi ini menjamin performa tinggi dan efisiensi alur kerja pengkodean berbasis AI Agent.
 
 ---
 
-## 🛠️ Prerequisites
+## Daftar Isi
 
-Before you begin, ensure you have the following installed on your system:
-- **Node.js** (for building the React frontend)
-- **Python 3.9** or higher
-- **Git** (for version control)
-
----
-
-## 🚀 Installation & Running Locally
-
-The application consists of a Python backend and a React/Vite frontend. You need to run both in development mode.
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/vibe-coder-starterpack.git
-   cd vibe-coder-starterpack
-   ```
-
-2. **Start the Frontend (React/Vite)**
-   Open a terminal and navigate to the `ui` directory:
-   ```bash
-   cd ui
-   pnpm install
-   pnpm run dev
-   ```
-   *This will start the Vite development server on `http://localhost:5173`.*
-
-3. **Set up the Backend (Python)**
-   Open a second terminal in the root directory and create a virtual environment:
-   ```bash
-   python -m venv venv
-   ```
-   Activate the virtual environment:
-   - On Windows:
-     ```bash
-     .\venv\Scripts\activate
-     ```
-   - On macOS/Linux:
-     ```bash
-     source venv/bin/activate
-     ```
-
-4. **Install Python Dependencies**
-   Install the required core packages:
-   ```bash
-   pip install pywebview loguru pydantic pydantic-settings pyinstaller
-   ```
-
-5. **Run the Application**
-   With the virtual environment activated, start the Python backend:
-   ```bash
-   python src/main.py
-   ```
-   *The desktop window will open and automatically connect to your local Vite dev server!*
+- [Fitur Utama](#fitur-utama)
+- [Arsitektur Sistem](#arsitektur-sistem)
+- [Prasyarat Sistem](#prasyarat-sistem)
+- [Panduan Instalasi & Pengembangan Lokal](#panduan-instalasi--pengembangan-lokal)
+- [Panduan Build Executable (.exe)](#panduan-build-executable-exe)
+- [Struktur Proyek](#struktur-proyek)
+- [Lisensi & Penulis](#lisensi--penulis)
 
 ---
 
-## 📦 How to Build (Create Executable)
+## Fitur Utama
 
-To distribute the app to users who do not have Python installed, you can compile the application into a standalone executable (`.exe`).
+### 1. Blueprint Vibe Coding 101
+- **PRD, SDD & DESIGN Bundle**: Standardisasi 3 dokumen acuan utama sebelum meminta AI Agent menulis kode aplikasi.
+- **Kalkulator Token & Efisiensi AI**: Estimasi biaya token prompt dan strategi penghematan konteks.
+- **Orkestrasi AI Agent & Quality Audit**: Panduan *stress testing*, pengujian otomatis, dan audit keamanan.
 
-### Building on Windows
+### 2. Panduan Tech Stack (StackTech)
+- **Frontend Architecture**: Panduan perbandingan SPA, SSR, PWA, React, Next.js, Vue, dan Svelte.
+- **Backend Infrastructure**: Perbandingan Node.js/Express, Python FastAPI, Laravel, dan Go.
+- **Database Engine**: Arsitektur SQL (PostgreSQL, MySQL), NoSQL (MongoDB), In-Memory Cache (Redis), dan Supabase BaaS.
 
-We have provided a batch script for automatic compilation. Make sure your virtual environment is active and Node.js is installed!
+### 3. Strategi Rilis & Deploy
+- **Tingkat Pemula (Beginner)**: Deployment instan menggunakan Vercel, GitHub Pages, Netlify, dan Render.
+- **Tingkat Mahir (Expert)**: VPS Bare-Metal, Nginx Reverse Proxy, Docker Containerization, dan CI/CD Pipeline.
 
-1. **Build the Frontend:**
-   Before building the executable, you must build the React frontend:
-   ```bash
-   cd ui
-   pnpm run build
-   cd ..
-   ```
-   *Note: This requires you to have run `pnpm install` in the `ui` directory first.*
+### 4. Panduan Strategi UI/UX
+- **Workflow Pre-design**: Perencanaan *user persona*, *user flow*, dan arsitektur informasi.
+- **Simulasi Wireframing**: Perbandingan interaktif antara sketsa Lo-Fi (Low-Fidelity) dan Hi-Fi (High-Fidelity).
+- **Tooling Modern**: Integrasi Figma Auto-Layout dan alat AI seperti Google Stitch.
 
-2. **Run the build script:**
-   ```bash
-   .\build.bat
-   ```
-   *Note: You may need to update `VibeCoderStarterpack.spec` to include the `ui/dist` folder depending on your setup.*
+### 5. Perkakas Developer Monokrom
+- **Realtime JSON Formatter**: Format, rapikan, minifikasi, dan validasi struktur JSON secara langsung.
+- **Regex Tester & Highlighting**: Uji ekspresi reguler (Regular Expression) dengan pemindaian *match status*.
+- **Base64 Encoder & Decoder**: Enkripsi dan dekripsi teks atau string Base64.
+- **Color Picker & Mobile UI Glossary**: Galeri 35+ pola komponen antarmuka mobile native.
 
-3. **Retrieve the Executable:**
-   Once the process finishes successfully, your standalone application will be located in the newly created `dist/` folder:
-   ```text
-   dist/VibeCoderStarterpack.exe
-   ```
-
-*(Behind the scenes, the build script uses PyInstaller and standardizes the include hooks for PyWebView and bundles the React static build).*
+### 6. Command Palette (`Ctrl + K` / `Cmd + K`)
+- Pencarian cerdas serbaguna untuk meluncurkan modul, perkakas, dan panduan secara instan dari halaman mana saja.
 
 ---
 
-## 📁 Project Structure
+## Arsitektur Sistem
 
 ```text
-vibe-coder-starterpack/
-│
-├── src/
-│   ├── app/                    # Core application logic and main window
-│   ├── modules/                # Specialized feature modules
-│   │   ├── design/             # Design Tools
-│   │   ├── developer/          # Dev Tools (JSON, Regex, etc.)
-│   │   └── mobile/             # Mobile UI Glossary
-│   ├── ui/                     # Reusable UI components
-│   │   └── components/         # Dashboard, Settings, Command Palette, etc.
-│   └── main.py                 # Application entry point
-│
-├── build.bat                   # Windows compilation script
-├── VibeCoderStarterpack.spec   # PyInstaller build spec
-└── README.md
++-----------------------------------------------------------------------+
+|                    Vibe Coder Starterpack (VCS)                       |
++-----------------------------------------------------------------------+
+|                                                                       |
+|  +-----------------------------------------------------------------+  |
+|  |                 React 19 + TypeScript + Vite UI                 |  |
+|  |       (Monochrome Tailwind CSS, Lucide Icons, Shadcn UI)        |  |
+|  +-----------------------------------------------------------------+  |
+|                                  ^                                    |
+|                                  | (File Protocol / Bridge API)       |
+|                                  v                                    |
+|  +-----------------------------------------------------------------+  |
+|  |                    Python 3.13 + PyWebView                      |  |
+|  |          (Single-Window Splash Screen & Native Wrapper)         |  |
+|  +-----------------------------------------------------------------+  |
+|                                                                       |
++-----------------------------------------------------------------------+
 ```
 
 ---
 
-## 📄 License
+## Prasyarat Sistem
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Sebelum menjalankan atau membangun aplikasi, pastikan perangkat Anda telah terpasang:
+
+- **Node.js**: v18.0.0 atau lebih baru
+- **pnpm**: v8.0.0 atau lebih baru (`npm install -g pnpm`)
+- **Python**: v3.9 atau lebih baru
+- **Git**: Untuk manajemen repositori
 
 ---
 
-*Built with ❤️ to make development workflows faster and more elegant.*
+## Panduan Instalasi & Pengembangan Lokal
+
+### 1. Clone Repositori
+
+```bash
+git clone https://github.com/zifaucode/vibe-coder-starterpack.git
+cd vibe-coder-starterpack
+```
+
+### 2. Jalankan Antarmuka Frontend (React/Vite)
+
+Buka terminal pertama dan jalankan perintah berikut:
+
+```bash
+cd ui
+pnpm install
+pnpm run dev
+```
+
+*Frontend akan berjalan di `http://localhost:5173`.*
+
+### 3. Siapkan Backend & Environment Python
+
+Buka terminal kedua di root direktori proyek, buat virtual environment, lalu aktifkan:
+
+```bash
+# Membuat virtual environment
+python -m venv venv
+
+# Aktivasi di Windows (PowerShell)
+.\venv\Scripts\Activate.ps1
+
+# Aktivasi di macOS / Linux
+source venv/bin/activate
+```
+
+Pasang dependensi Python yang dibutuhkan:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Jalankan Aplikasi Desktop
+
+Dengan virtual environment aktif, jalankan entry point utama:
+
+```bash
+python src/main.py
+```
+
+*Jendela aplikasi desktop akan terbuka dan menampilkan Splash Screen sebelum memuat antarmuka React UI.*
+
+---
+
+## Panduan Build Executable (.exe)
+
+Untuk menghasilkan aplikasi *standalone* (`VibeCoderStarterpack.exe`) yang dapat disebarkan tanpa membutuhkan instalasi Python maupun Node.js pada komputer target:
+
+### Langkah 1: Kompilasi Frontend React
+
+```bash
+cd ui
+pnpm run build
+cd ..
+```
+
+*Perintah ini akan memperbarui berkas produksi statis di dalam folder `ui/dist/` dengan konfigurasi jalur relatif (`base: './'`).*
+
+### Langkah 2: Kompilasi PyInstaller Executable
+
+Jalankan berkas script otomatisasi build:
+
+```bash
+.\build.bat
+```
+
+Atau jalankan PyInstaller secara manual menggunakan spesifikasi `.spec`:
+
+```bash
+.\venv\Scripts\pyinstaller.exe VibeCoderStarterpack.spec --noconfirm --clean
+```
+
+### Langkah 3: Ambil Hasil Executable
+
+Setelah kompilasi selesai, direktori produk *standalone* tersedia di:
+
+```text
+dist/VibeCoderStarterpack/
+├── VibeCoderStarterpack.exe   <-- Executable Utama
+└── _internal/                 <-- Runtime Library & Web Assets
+```
+
+---
+
+## Struktur Proyek
+
+```text
+vibe-coder-starterpack/
+├── assets/                     # App icon (.ico) & logo assets
+├── src/                        # Python PyWebView backend source
+│   ├── main.py                 # Entry point & Splash Screen launcher
+│   └── app/                    # Application core logic & window config
+├── ui/                         # Frontend React + TypeScript application
+│   ├── public/                 # Static public assets (VCS Logo)
+│   ├── src/
+│   │   ├── assets/             # Bundled image assets
+│   │   ├── components/         # Command Palette & UI components
+│   │   ├── pages/              # Introduction, StackTech, Deploy, UI/UX, AboutMe
+│   │   ├── App.tsx             # Main Layout & Navigation Manager
+│   │   └── main.tsx            # React entry point
+│   ├── vite.config.ts          # Vite build config (base: './')
+│   └── package.json            # Node.js dependencies & scripts
+├── build.bat                   # Automation batch script for Windows build
+├── VibeCoderStarterpack.spec   # PyInstaller packaging configuration
+├── requirements.txt            # Python dependencies manifest
+└── README.md                   # Dokumentasi resmi proyek
+```
+
+---
+
+## Lisensi & Penulis
+
+Proyek ini dirilis di bawah lisensi **MIT License**.
+
+- **Author / Maintainer**: [zifaucode](https://github.com/zifaucode)
+- **Repository**: [https://github.com/zifaucode/vibe-coder-starterpack](https://github.com/zifaucode/vibe-coder-starterpack)
+
+---
+
+*Vibe Coder Starterpack — Built for Precision, Efficiency, and Minimalist Excellence.*
