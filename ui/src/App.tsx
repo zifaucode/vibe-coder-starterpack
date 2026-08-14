@@ -18,7 +18,7 @@ import { LayoutDashboard, Pipette, Code, Boxes, Search, Fingerprint, Smartphone,
 
 export default function App() {
   const [appName, setAppName] = useState("VCS")
-  const [activeTab, setActiveTab] = useState("introduction")
+  const [activeTab, setActiveTab] = useState("dashboard")
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
 
   useEffect(() => {

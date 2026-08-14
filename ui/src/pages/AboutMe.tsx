@@ -9,6 +9,10 @@ import {
   Terminal,
   Layers,
   Rocket,
+  Bot,
+  Cpu,
+  Workflow,
+  Zap,
 } from "lucide-react";
 import vcsLogo from "../assets/vcs-logo.png";
 
@@ -51,7 +55,7 @@ export default function AboutMe() {
                 Vibe Coder Starterpack
               </h1>
               <p className="text-xs md:text-sm text-gray-500 font-mono">
-                Pusat Ekosistem & Template Vibe Coding Terstruktur
+                Ekosistem & Dokumentasi AI-Assisted Development
               </p>
             </div>
           </div>
@@ -67,7 +71,7 @@ export default function AboutMe() {
         </div>
 
         <p className="text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-5">
-          **Vibe Coder Starterpack (VCS)** diciptakan oleh **zifaucode** sebagai standar emas ekosistem *Vibe Coding*. Proyek ini menyediakan fondasi dokumen arsitektur (PRD, SDD, DESIGN), strategi pemilihan tech stack, alur rilis produksi, hingga perkakas developer monokrom untuk memastikan instruksi AI Agent berjalan presisi tanpa halusinasi.
+          <strong>Vibe Coder Starterpack (VCS)</strong> dikembangkan oleh <strong>zifaucode</strong> untuk mendukung alur kerja <em>Vibe Coding</em> dan <em>AI-Assisted Development</em>. VCS menyediakan blueprint dokumen arsitektur (PRD, SDD, DESIGN) untuk AI Agents, kalkulator efisiensi token prompt, panduan pemilihan tech stack, strategi deployment, serta perkakas developer dalam satu aplikasi desktop.
         </p>
       </div>
 
@@ -92,7 +96,7 @@ export default function AboutMe() {
             </div>
 
             <p className="text-xs text-gray-600 leading-relaxed">
-              **zifaucode** berfokus pada pengembangan arsitektur aplikasi modern, automatisasi alur kerja AI Agent, dan pembuatan antarmuka minimalis berkualitas tinggi yang WOW pada pandangan pertama.
+              <strong>zifaucode</strong> berfokus pada alur kerja AI Agent, penyusunan arsitektur sistem, efisiensi prompt engineering, serta pembuatan antarmuka pengguna yang bersih, efisien, dan fungsional.
             </p>
           </div>
 
@@ -157,6 +161,53 @@ export default function AboutMe() {
         </div>
       </div>
 
+      {/* AI & Vibe Coding Terminology Grid */}
+      <div className="bg-white rounded-2xl border border-gray-200 p-6 space-y-6 shadow-xs">
+        <div className="space-y-1 border-b border-gray-100 pb-3">
+          <h2 className="text-xl font-bold text-black flex items-center gap-2">
+            <Bot className="h-5 w-5 text-black" />
+            <span>Konsep Utama Vibe Coding & AI Agent</span>
+          </h2>
+          <p className="text-xs text-gray-500">
+            Istilah dasar yang melandasi metode pengkodean berbasis kecerdasan buatan.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
+            <Cpu className="h-5 w-5 text-black" />
+            <h3 className="text-xs font-bold text-black">AI Agent & LLM</h3>
+            <p className="text-[11px] text-gray-600 leading-relaxed">
+              Model bahasa besar yang berfungsi sebagai asisten pengkodean otonom untuk mengeksekusi instruksi developer.
+            </p>
+          </div>
+
+          <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
+            <Workflow className="h-5 w-5 text-black" />
+            <h3 className="text-xs font-bold text-black">Context Window</h3>
+            <p className="text-[11px] text-gray-600 leading-relaxed">
+              Batas kapasitas memori prompt AI. Dokumen PRD & SDD digunakan agar konteks kode tetap fokus dan terarah.
+            </p>
+          </div>
+
+          <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
+            <Zap className="h-5 w-5 text-black" />
+            <h3 className="text-xs font-bold text-black">Prompt Engineering</h3>
+            <p className="text-[11px] text-gray-600 leading-relaxed">
+              Teknik penyusunan instruksi yang terstruktur dan rinci agar AI Agent dapat menghasilkan kode yang valid.
+            </p>
+          </div>
+
+          <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
+            <Bot className="h-5 w-5 text-black" />
+            <h3 className="text-xs font-bold text-black">Human-AI Pairing</h3>
+            <p className="text-[11px] text-gray-600 leading-relaxed">
+              Pola kolaborasi di mana manusia bertindak sebagai pengarah arsitektur dan AI Agent sebagai pelaksana eksekusi.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Feature Pillar Summary */}
       <div className="bg-white rounded-2xl border border-gray-200 p-6 space-y-6 shadow-xs">
         <div className="space-y-1 border-b border-gray-100 pb-3">
@@ -209,7 +260,7 @@ export default function AboutMe() {
           <span>by zifaucode for Vibe Coding Community</span>
         </div>
         <div className="text-sm font-bold text-white">
-          Vibe Coder Starterpack • Open Source Ecosystem
+          Vibe Coder Starterpack • Open Source AI Ecosystem
         </div>
       </div>
     </div>

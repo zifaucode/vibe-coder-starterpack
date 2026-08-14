@@ -4,8 +4,8 @@
   <h1>Vibe Coder Starterpack (VCS)</h1>
 
   <p>
-    <b>Pusat Ekosistem & Template Vibe Coding Terstruktur</b><br>
-    <i>Pilihan Utama Developer Modern untuk Pengkodean AI Presisi & Bebas Halusinasi</i>
+    <b>Dokumentasi Arsitektur, Tech Stack Guide, & Developer Utilities</b><br>
+    <i>Aplikasi Desktop Native untuk Efisiensi Pengembangan Software</i>
   </p>
 
   <p>
@@ -18,14 +18,27 @@
 
 <br>
 
-**Vibe Coder Starterpack (VCS)** adalah aplikasi desktop native & ekosistem dokumentasi terstruktur untuk pengembang software modern (*Vibe Coders*). VCS menyediakan blueprint dokumen arsitektur (PRD, SDD, DESIGN), strategi pemilihan *tech stack*, panduan rilis produksi (Vercel hingga Docker & VPS), alur kerja UI/UX, perkakas developer monokrom, serta bilah pencarian cerdas **Command Palette (`Ctrl + K`)**.
+**Vibe Coder Starterpack (VCS)** adalah aplikasi desktop native dan kumpulan template dokumentasi terstruktur untuk pengembang software. VCS menyediakan blueprint arsitektur (PRD, SDD, DESIGN), panduan pemilihan *tech stack*, strategi deployment (Vercel hingga Docker & VPS), alur kerja UI/UX, perkakas developer, serta bilah pencarian **Command Palette (`Ctrl + K`)**.
 
-Didesain khusus dengan prinsip **Monokrom Minimalis** (Pure Black & White) tanpa warna norak dan tanpa *AI slop*, aplikasi ini menjamin performa tinggi dan efisiensi alur kerja pengkodean berbasis AI Agent.
+Dikembangkan dengan antarmuka **Monokrom Minimalis** untuk memberikan pengalaman penggunaan yang bersih, fokus, dan responsif.
+
+---
+
+## Overview & Preview
+
+<p align="center">
+  <img src="assets/dashboard-preview.png" alt="VCS Dashboard Preview" width="100%" style="border-radius: 12px; border: 1px solid #e5e7eb; margin-bottom: 12px;" />
+</p>
+
+<p align="center">
+  <img src="assets/aboutme-preview.png" alt="VCS About Me & AI Concepts Preview" width="100%" style="border-radius: 12px; border: 1px solid #e5e7eb;" />
+</p>
 
 ---
 
 ## Daftar Isi
 
+- [Overview & Preview](#overview--preview)
 - [Fitur Utama](#fitur-utama)
 - [Arsitektur Sistem](#arsitektur-sistem)
 - [Prasyarat Sistem](#prasyarat-sistem)

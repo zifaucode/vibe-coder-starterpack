@@ -70,7 +70,7 @@
  [],
  False,
  False,
- 1786677124,
+ 1786678395,
  [('runw.exe',
    'C:\\Users\\DELL\\Documents\\PROJECT\\vibe-coder-starterpack\\venv\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',
    'EXECUTABLE')],
