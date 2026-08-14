@@ -1,11 +1,24 @@
 @echo off
-echo Cleaning old builds...
+echo ====================================================
+echo   Building Vibe Coder Starterpack (VCS) Executable
+echo ====================================================
+
+echo [1/3] Building React Frontend UI...
+cd ui
+call pnpm run build
+cd ..
+
+echo [2/3] Cleaning old build artifacts...
 taskkill /F /IM VibeCoderStarterpack.exe /T 2>nul
-rmdir /S /Q build
-rmdir /S /Q dist
+rmdir /S /Q build 2>nul
+rmdir /S /Q dist 2>nul
 
-echo Building Vibe Coder Starterpack (VCS)...
-.\venv\Scripts\pyinstaller.exe --name "VibeCoderStarterpack" --windowed --noconfirm --clean --icon=assets\app_icon.ico --add-data "assets;assets" --hidden-import rembg --hidden-import vtracer --hidden-import onnxruntime --hidden-import PIL --copy-metadata pymatting --copy-metadata rembg --copy-metadata pooch --copy-metadata onnxruntime --paths src src\main.py
+echo [3/3] Running PyInstaller with VCS Logo & Splash Screen...
+.\venv\Scripts\pyinstaller.exe VibeCoderStarterpack.spec --noconfirm --clean
 
-echo Build complete! Executable is in the dist/ folder.
+echo ====================================================
+echo BUILD COMPLETE! 
+echo Executable: dist\VibeCoderStarterpack\VibeCoderStarterpack.exe
+echo Icon & Splash Screen applied successfully!
+echo ====================================================
 pause

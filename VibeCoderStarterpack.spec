@@ -1,19 +1,17 @@
 # -*- mode: python ; coding: utf-8 -*-
-from PyInstaller.utils.hooks import copy_metadata
 
-datas = [('assets', 'assets')]
-datas += copy_metadata('pymatting')
-datas += copy_metadata('rembg')
-datas += copy_metadata('pooch')
-datas += copy_metadata('onnxruntime')
-
+datas = [
+    ('assets', 'assets'),
+    ('ui/dist', 'ui/dist'),
+    ('ui/public', 'ui/public')
+]
 
 a = Analysis(
     ['src\\main.py'],
     pathex=['src'],
     binaries=[],
     datas=datas,
-    hiddenimports=['rembg', 'vtracer', 'onnxruntime', 'PIL'],
+    hiddenimports=['webview', 'loguru'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

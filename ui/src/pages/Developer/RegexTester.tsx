@@ -17,7 +17,7 @@ export default function RegexTester() {
         arr.push(<span key={`part-${i}`}>{part}</span>);
         if (i < matches.length) {
           arr.push(
-            <span key={`match-${i}`} className="bg-yellow-200 text-yellow-900 rounded-sm px-0.5">
+            <span key={`match-${i}`} className="bg-black text-white rounded-sm px-1 font-mono">
               {matches[i]}
             </span>
           );
@@ -25,7 +25,7 @@ export default function RegexTester() {
         return arr;
       }, [] as React.ReactNode[]);
     } catch (e) {
-      return <span className="text-red-500">Invalid Regular Expression</span>;
+      return <span className="text-black font-mono font-bold">Invalid Regular Expression</span>;
     }
   };
 

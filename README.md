@@ -50,8 +50,8 @@ The application consists of a Python backend and a React/Vite frontend. You need
    Open a terminal and navigate to the `ui` directory:
    ```bash
    cd ui
-   npm install
-   npm run dev
+   pnpm install
+   pnpm run dev
    ```
    *This will start the Vite development server on `http://localhost:5173`.*
 
@@ -97,10 +97,10 @@ We have provided a batch script for automatic compilation. Make sure your virtua
    Before building the executable, you must build the React frontend:
    ```bash
    cd ui
-   npm run build
+   pnpm run build
    cd ..
    ```
-   *Note: This requires you to have run `npm install` in the `ui` directory first.*
+   *Note: This requires you to have run `pnpm install` in the `ui` directory first.*
 
 2. **Run the build script:**
    ```bash

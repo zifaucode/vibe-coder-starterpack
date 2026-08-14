@@ -4,6 +4,7 @@ import path from "path"
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: './', // Crucial for file:// protocol loading in PyWebView EXE!
   plugins: [react()],
   resolve: {
     alias: {
