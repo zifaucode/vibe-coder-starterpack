@@ -27,11 +27,11 @@ Dikembangkan dengan antarmuka **Monokrom Minimalis** untuk memberikan pengalaman
 ## Overview & Preview
 
 <p align="center">
-  <img src="assets/dashboard-preview.png" alt="VCS Dashboard Preview" width="100%" style="border-radius: 12px; border: 1px solid #e5e7eb; margin-bottom: 12px;" />
+  <img src="assets/dashboard-vcs.PNG" alt="VCS Dashboard Preview" width="100%" style="border-radius: 12px; border: 1px solid #e5e7eb; margin-bottom: 12px;" />
 </p>
 
 <p align="center">
-  <img src="assets/aboutme-preview.png" alt="VCS About Me & AI Concepts Preview" width="100%" style="border-radius: 12px; border: 1px solid #e5e7eb;" />
+  <img src="assets/aboutme-vcs.PNG" alt="VCS About Me & AI Concepts Preview" width="100%" style="border-radius: 12px; border: 1px solid #e5e7eb;" />
 </p>
 
 ---
