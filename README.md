@@ -77,7 +77,7 @@ Dikembangkan dengan antarmuka **Monokrom Minimalis** untuk memberikan pengalaman
 - **Color Picker & Mobile UI Glossary**: Galeri 35+ pola komponen antarmuka mobile native.
 
 ### 6. Command Palette (`Ctrl + K` / `Cmd + K`)
-- Pencarian cerdas serbaguna untuk meluncurkan modul, perkakas, dan panduan secara instan dari halaman mana saja.
+- Pencarian cepat untuk meluncurkan modul, perkakas, dan panduan dari halaman mana saja.
 
 ---
 
@@ -251,11 +251,48 @@ Anda dapat memanfaatkan Runner Mac gratis di GitHub Actions (`macos-latest`) den
 
 ---
 
+## Skill Anti-Slop AI & Panduan Instalasi Manual
+
+Proyek ini mengintegrasikan aturan **Anti-Slop AI (Copywriting & UI/Visual)** yang diciptakan oleh **Miqdad Badjuber** ([miqdadbadjuber/anti-slop](https://github.com/miqdadbadjuber/anti-slop)). Aturan ini dirancang untuk mencegah AI menghasilkan *bloated code*, frasa pemasaran klise (*AI slop*), gradien berlebihan, dan elemen antarmuka artifisial.
+
+### Panduan Instalasi Manual Skill Anti-Slop
+
+Anda dapat memasang skill Anti-Slop secara manual pada AI Agent favorit Anda (Antigravity IDE, Cursor, Claude Code, Windsurf, dll.):
+
+#### Metode 1: Instalasi dari Repositori GitHub
+```bash
+# Clone repositori anti-slop buatan Miqdad Badjuber
+git clone https://github.com/miqdadbadjuber/anti-slop.git
+
+# Untuk Antigravity IDE / AGY CLI (Global Customization):
+# Salin folder skill ke direktori global .gemini/config/skills/
+mkdir -p ~/.gemini/config/skills
+cp -r anti-slop/skills/* ~/.gemini/config/skills/
+```
+
+#### Metode 2: Instalasi dari Direktori Lokal VCS Project
+```bash
+# Untuk Antigravity IDE / AGY CLI (Workspace Customization):
+# Salin dari folder skill/ ke .agents/skills/ proyek Anda
+mkdir -p .agents/skills
+cp -r skill/antislop-copywriting .agents/skills/
+cp -r skill/antislop-ui .agents/skills/
+```
+
+#### Metode 3: Untuk Cursor / Claude Code / VSCode AI Extensions
+- **Cursor**: Salin ringkasan aturan dari `skill/antislop-copywriting/SKILL.md` dan `skill/antislop-ui/SKILL.md` ke dalam berkas `.cursorrules` di root proyek.
+- **Claude Code**: Salin folder `antislop-copywriting` dan `antislop-ui` ke `.claude/skills/`.
+
+---
+
 ## Struktur Proyek
 
 ```text
 vibe-coder-starterpack/
+├── .agents/                    # Customization rules & skills untuk AGY / Antigravity AI
+│   └── skills/                 # Skills registered (antislop-copywriting, antislop-ui)
 ├── assets/                     # App icon (.ico) & logo assets
+├── skill/                      # Bundled skills (antislop-copywriting, antislop-ui)
 ├── src/                        # Python PyWebView backend source
 │   ├── main.py                 # Entry point & Splash Screen launcher
 │   └── app/                    # Application core logic & window config
@@ -282,8 +319,9 @@ vibe-coder-starterpack/
 Proyek ini dirilis di bawah lisensi **MIT License**.
 
 - **Author / Maintainer**: [zifaucode](https://github.com/zifaucode)
+- **Anti-Slop AI Rules & Skills**: Aturan oleh [Miqdad Badjuber](https://github.com/miqdadbadjuber) ([anti-slop](https://github.com/miqdadbadjuber/anti-slop)).
 - **Repository**: [https://github.com/zifaucode/vibe-coder-starterpack](https://github.com/zifaucode/vibe-coder-starterpack)
 
 ---
 
-*Vibe Coder Starterpack — Built for Precision, Efficiency, and Minimalist Excellence.*
+*Vibe Coder Starterpack: Dokumentasi & Perkakas Vibe Coding.*

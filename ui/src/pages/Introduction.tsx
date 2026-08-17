@@ -7,7 +7,6 @@ import {
   ShieldCheck,
   Globe,
   Calculator,
-  Sparkles,
   CheckCircle2,
   ArrowRight,
   Layers,
@@ -16,7 +15,6 @@ import {
   Gauge,
   AlertTriangle,
   XCircle,
-  Skull,
   FileWarning,
   Download,
   Copy,
@@ -116,7 +114,21 @@ export interface ResourceItem {
 `
   };
 
-  const handleDownload = (filename: string, content: string) => {
+  const handleDownload = async (filename: string, content: string) => {
+    // 1. Try PyWebView Native File Save Dialog if available in desktop app
+    const pywebview = (window as any).pywebview;
+    if (pywebview && pywebview.api && pywebview.api.save_file) {
+      try {
+        const res = await pywebview.api.save_file(filename, content);
+        if (res && res.success) {
+          return;
+        }
+      } catch (err) {
+        console.error("PyWebView save_file error:", err);
+      }
+    }
+
+    // 2. Fallback for standard browser mode (Blob download)
     const element = document.createElement("a");
     const file = new Blob([content], { type: "text/markdown;charset=utf-8" });
     element.href = URL.createObjectURL(file);
@@ -132,10 +144,10 @@ export interface ResourceItem {
     setTimeout(() => setCopiedKey(null), 2000);
   };
 
-  const handleDownloadAll = () => {
-    handleDownload("PRD.md", TEMPLATES.prd);
-    setTimeout(() => handleDownload("SDD.md", TEMPLATES.sdd), 300);
-    setTimeout(() => handleDownload("DESIGN.md", TEMPLATES.design), 600);
+  const handleDownloadAll = async () => {
+    await handleDownload("PRD.md", TEMPLATES.prd);
+    await handleDownload("SDD.md", TEMPLATES.sdd);
+    await handleDownload("DESIGN.md", TEMPLATES.design);
   };
 
   // Token Calculator State
@@ -153,17 +165,15 @@ export interface ResourceItem {
     <div className="max-w-6xl w-full mx-auto space-y-8 animate-in fade-in duration-500 pb-20">
       {/* Hero Header */}
       <div className="space-y-4 border-b border-gray-200 pb-6">
-        <div className="inline-flex items-center rounded-full border border-black/10 bg-white px-3.5 py-1 text-xs font-semibold text-black shadow-xs gap-2">
+        <div className="inline-flex items-center rounded-md border border-black/10 bg-white px-3.5 py-1 text-xs font-semibold text-black shadow-xs gap-2">
           <BookOpen className="h-3.5 w-3.5 text-black" />
-          <span>Panduan Lengkap Vibe Coding 101</span>
+          <span>Panduan Alur Kerja Vibe Coding</span>
         </div>
         <h1 className="text-4xl md:text-5xl font-black tracking-tight text-black leading-tight">
           Pengetahuan Dasar Vibe Coder
         </h1>
         <p className="text-muted-foreground text-base md:text-lg max-w-3xl leading-relaxed">
-          Panduan terstruktur langkah-demi-langkah dari blueprint dokumen (PRD,
-          SDD, DESIGN), pemahaman token AI, arsitektur Orchestrator Agent,
-          hingga pengujian otomatis & audit keamanan.
+          Langkah terstruktur menyusun berkas blueprint (PRD, SDD, DESIGN), menghitung konsumsi token AI, mengelola agent orchestrator, dan melakukan pengujian otomatis.
         </p>
       </div>
 
@@ -207,7 +217,7 @@ export interface ResourceItem {
             <button
               key={step.id}
               onClick={() => setActiveStep(step.id)}
-              className={`flex flex-col items-start p-3 rounded-xl transition-all text-left space-y-1.5 ${
+              className={`flex flex-col items-start p-3 rounded-xl transition-all text-left space-y-1.5 cursor-pointer ${
                 isActive
                   ? "bg-white text-black shadow-xs font-semibold"
                   : "text-gray-500 hover:text-black hover:bg-white/50"
@@ -242,17 +252,13 @@ export interface ResourceItem {
                   Dokumentasi Arsitektur Vibe Coding
                 </h2>
                 <p className="text-xs text-gray-500">
-                  Tiga pilar dokumen utama sebelum Anda meminta AI menulis kode
-                  aplikasi.
+                  Tiga dokumen acuan utama sebelum meminta AI menulis kode aplikasi.
                 </p>
               </div>
             </div>
 
             <p className="text-sm text-gray-600 leading-relaxed">
-              Dalam alur **Vibe Coding**, meminta AI langsung menulis kode tanpa
-              blueprint dokumen sering kali menghasilkan kode spaghetti atau
-              fitur yang menyimpang dari tujuan awal. Gunakan 3 berkas markdown
-              (
+              Meminta AI langsung menulis kode tanpa dokumen blueprint berisiko menghasilkan struktur data acak dan fitur yang tidak sesuai kebutuhan. Gunakan berkas markdown (
               <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-xs">
                 PRD.md
               </code>
@@ -264,11 +270,11 @@ export interface ResourceItem {
               <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-xs">
                 DESIGN.md
               </code>
-              ) sebagai acuan prompt utama AI Agent.
+              ) sebagai instruksi acuan utama bagi AI Agent.
             </p>
 
             {/* Global Download Action Banner */}
-            <div className="bg-black text-white p-4 rounded-xl flex flex-col md:flex-row items-center justify-between gap-3 shadow-md border border-gray-800">
+            <div className="bg-black text-white p-4 rounded-xl flex flex-col md:flex-row items-center justify-between gap-3 shadow-sm border border-gray-800">
               <div className="space-y-0.5 text-center md:text-left">
                 <span className="text-xs font-bold text-gray-300 uppercase tracking-wider">Template Standar Vibe Coding</span>
                 <h4 className="text-sm font-bold text-white">Unduh Blueprint Lengkap (PRD.md, SDD.md, DESIGN.md)</h4>
@@ -299,9 +305,7 @@ export interface ResourceItem {
                     Product Requirements Document
                   </p>
                   <p className="text-xs text-gray-600 leading-relaxed">
-                    Mendefinisikan **APA** yang ingin dibangun. Berisi visi
-                    produk, latar belakang masalah, target pengguna, dan fitur
-                    utama (user stories).
+                    Mendefinisikan tujuan produk, latar belakang masalah, target pengguna, dan daftar fitur utama (user stories).
                   </p>
                 </div>
 
@@ -352,9 +356,7 @@ export interface ResourceItem {
                     System Design Document
                   </p>
                   <p className="text-xs text-gray-600 leading-relaxed">
-                    Mendefinisikan **BAGAIMANA** sistem bekerja teknis. Berisi
-                    arsitektur basis data, REST/GraphQL API contracts, struktur
-                    folder, dan pilihan tech stack.
+                    Mendefinisikan aspek teknis sistem, arsitektur basis data, spesifikasi API contract, struktur folder, dan pilihan tech stack.
                   </p>
                 </div>
 
@@ -405,9 +407,7 @@ export interface ResourceItem {
                     Design System & Guidelines
                   </p>
                   <p className="text-xs text-gray-600 leading-relaxed">
-                    Mendefinisikan **TAMPILAN** dan User Experience. Berisi
-                    token warna (HSL/HEX), tipografi, spacing, aturan responsif,
-                    serta pedoman UI/UX.
+                    Mendefinisikan tampilan dan pengalaman pengguna. Berisi token warna (HSL/HEX), tipografi, spacing, dan aturan responsif layout.
                   </p>
                 </div>
 
@@ -443,20 +443,19 @@ export interface ResourceItem {
               </div>
             </div>
 
-            {/* Pro Tip Callout */}
+            {/* Practical Advice Callout */}
             <div className="bg-gray-50 rounded-xl p-4 border border-gray-200 flex items-start gap-3">
-              <Sparkles className="h-5 w-5 text-black flex-shrink-0 mt-0.5" />
+              <BookOpen className="h-5 w-5 text-black flex-shrink-0 mt-0.5" />
               <div className="space-y-1 text-xs">
                 <span className="font-bold text-black">
-                  Vibe Coder Pro-Tip:
+                  Catatan Penting:
                 </span>
                 <p className="text-gray-700 leading-relaxed">
                   Selalu instruksikan AI Anda:{" "}
                   <code className="bg-gray-100 border border-gray-200 px-1.5 py-0.5 rounded font-mono font-bold text-black">
-                    "Baca PRD.md dan SDD.md terlebih dahulu sebelum menulis kode
-                    apapun."
+                    "Baca PRD.md dan SDD.md terlebih dahulu sebelum menulis kode apapun."
                   </code>{" "}
-                  Langkah ini memangkas bug arsitektur hingga 80%!
+                  Langkah ini mencegah kesalahan struktur data dan inkonsistensi API.
                 </p>
               </div>
             </div>
@@ -466,7 +465,7 @@ export interface ResourceItem {
               <div className="flex items-center gap-2">
                 <AlertTriangle className="h-5 w-5 text-black" />
                 <h3 className="text-xl font-bold text-black">
-                  Bahaya "AI Slop" & Kesalahan Pemula saat Coding dengan AI
+                  Resiko Kode Tanpa Perencanaan & Kesalahan Umum
                 </h3>
               </div>
 
@@ -475,56 +474,56 @@ export interface ResourceItem {
                 <div className="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-3 flex flex-col justify-between">
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 text-black font-bold text-sm">
-                      <Skull className="h-4 w-4 text-black" />
-                      <span>Apa itu "AI Slop" dalam Coding?</span>
+                      <FileWarning className="h-4 w-4 text-black" />
+                      <span>Definisi AI Slop dalam Kode</span>
                     </div>
                     <p className="text-xs text-gray-700 leading-relaxed">
-                      <strong>AI Slop</strong> adalah kode berkualitas buruk, berantakan, membengkak (<em>bloated</em>), dan penuh bug tersembunyi yang dihasilkan AI karena diberikan instruksi yang samar tanpa perencanaan (blueprint).
+                      <strong>AI Slop</strong> mengacu pada kode yang membengkak, berantakan, dan sulit dirawat karena dihasilkan AI tanpa dokumen perencanaan yang jelas.
                     </p>
                   </div>
                   <div className="bg-white rounded-lg p-3 border border-gray-200 text-xs text-black space-y-1.5 mt-2">
-                    <div className="font-semibold text-black">Mengapa AI Slop terjadi?</div>
+                    <div className="font-semibold text-black">Penyebab AI Slop:</div>
                     <p className="text-[11px] leading-relaxed text-gray-600">
-                      AI bersifat <em>sycophantic</em> (selalu berusaha menyenangkan pengguna). Tanpa PRD/SDD, AI akan <strong>menebak-nebak</strong> struktur data, menambah dependensi yang tak perlu, dan menumpuk <em>quick fix</em> hingga kode berubah menjadi <em>spaghetti code</em>.
+                      Tanpa dokumen PRD dan SDD, AI menebak struktur data dan menambahkan fungsi yang tidak diperlukan.
                     </p>
                   </div>
                 </div>
 
-                {/* 5 Kesalahan Programmer Awam */}
+                {/* 5 Kesalahan Programmer */}
                 <div className="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-3">
                   <div className="flex items-center gap-2 text-black font-bold text-sm border-b border-gray-200 pb-2">
                     <FileWarning className="h-4 w-4 text-black" />
-                    <span>5 Kesalahan Fatal Programmer Awam</span>
+                    <span>5 Kesalahan Umum Pengkodean Berbasis AI</span>
                   </div>
                   <div className="space-y-2 text-xs text-gray-800">
                     <div className="flex items-start gap-2">
                       <XCircle className="h-3.5 w-3.5 text-black flex-shrink-0 mt-0.5" />
                       <span>
-                        <strong>1. Zero-Blueprint Prompting:</strong> Langsung menyuruh AI "buatkan web toko online" tanpa membuat PRD & SDD terlebih dahulu.
+                        <strong>1. Tanpa Blueprint:</strong> Meminta AI membangun aplikasi tanpa PRD dan SDD.
                       </span>
                     </div>
                     <div className="flex items-start gap-2">
                       <XCircle className="h-3.5 w-3.5 text-black flex-shrink-0 mt-0.5" />
                       <span>
-                        <strong>2. Blind Copy-Paste (Passiveness):</strong> Menelan mentah-mentah hasil kode AI tanpa paham logika dasar atau membaca error traceback.
+                        <strong>2. Menyalin Tanpa Verifikasi:</strong> Menerima hasil kode AI tanpa memeriksa alur logika atau log kesalahan.
                       </span>
                     </div>
                     <div className="flex items-start gap-2">
                       <XCircle className="h-3.5 w-3.5 text-black flex-shrink-0 mt-0.5" />
                       <span>
-                        <strong>3. Macro Prompting:</strong> Menyuruh AI mengerjakan seluruh fitur raksasa sekaligus dalam satu prompt, alih-alih memecahnya secara modular.
+                        <strong>3. Prompt Terlalu Luas:</strong> Meminta AI menyelesaikan seluruh modul dalam satu prompt alih-alih membaginya per fungsi.
                       </span>
                     </div>
                     <div className="flex items-start gap-2">
                       <XCircle className="h-3.5 w-3.5 text-black flex-shrink-0 mt-0.5" />
                       <span>
-                        <strong>4. Overloading Context Window:</strong> Memasukkan puluhan file besar sekaligus ke AI hingga AI mengalami kerancuan memori (*context overload*).
+                        <strong>4. Konteks Berlebihan:</strong> Memasukkan terlalu banyak berkas ke memori AI sekaligus hingga menurunkan akurasi.
                       </span>
                     </div>
                     <div className="flex items-start gap-2">
                       <XCircle className="h-3.5 w-3.5 text-black flex-shrink-0 mt-0.5" />
                       <span>
-                        <strong>5. Mengabaikan Automated Testing:</strong> Tidak memverifikasi hasil dengan build/test command, linter, atau browser QA agent secara berkala.
+                        <strong>5. Tanpa Pengujian Otomatis:</strong> Tidak menjalankan perintah build atau pengujian unit secara berkala.
                       </span>
                     </div>
                   </div>
@@ -545,11 +544,10 @@ export interface ResourceItem {
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-black">
-                  Memahami & Menghitung Token AI
+                  Perhitungan Token AI
                 </h2>
                 <p className="text-xs text-gray-500">
-                  Mekanisme pemrosesan kata oleh LLM dan strategi menghemat
-                  kuota token.
+                  Estimasi pemrosesan teks oleh model bahasa dan penghematan kapasitas konteks.
                 </p>
               </div>
             </div>
@@ -558,33 +556,28 @@ export interface ResourceItem {
               <div className="space-y-4">
                 <h3 className="text-lg font-bold text-black flex items-center gap-2">
                   <Cpu className="h-5 w-5 text-black" />
-                  Apa itu Token AI?
+                  Pengertian Token AI
                 </h3>
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  **Token** adalah potong-potongan karakter terdistribusi yang
-                  digunakan oleh model AI (seperti Gemini 1.5 Pro, Claude 3.5
-                  Sonnet, atau GPT-4o) untuk memahami dan menghasilkan bahasa.
-                  Dalam kode program:
+                  Token adalah unit teks yang diproses oleh model AI untuk memahami dan menghasilkan kode program:
                 </p>
                 <ul className="space-y-2 text-xs text-gray-600">
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 text-black flex-shrink-0" />
                     <span>
-                      <strong>1 Token</strong> ≈ 3.5 - 4 karakter dalam bahasa
-                      Inggris / kode JavaScript.
+                      <strong>1 Token</strong> ≈ 3.5 - 4 karakter teks atau kode.
                     </span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 text-black flex-shrink-0" />
                     <span>
-                      <strong>100 Token</strong> ≈ 75 kata teks biasa.
+                      <strong>100 Token</strong> ≈ 75 kata.
                     </span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 text-black flex-shrink-0" />
                     <span>
-                      <strong>1 File Kode (300 baris)</strong> ≈ 1.800 - 2.500
-                      Token.
+                      <strong>1 Berkas Kode (300 baris)</strong> ≈ 1.800 - 2.500 Token.
                     </span>
                   </li>
                 </ul>
@@ -594,29 +587,26 @@ export interface ResourceItem {
               <div className="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-3">
                 <h3 className="text-sm font-bold text-black flex items-center gap-2">
                   <Layers className="h-4 w-4 text-black" />
-                  Konsep Context Window (Jendela Konteks)
+                  Kapasitas Context Window
                 </h3>
                 <p className="text-xs text-gray-500 leading-relaxed">
-                  Context Window adalah memori jangka pendek AI. Jika proyek
-                  Anda memiliki puluhan file raksasa, memasukkan seluruh file ke
-                  dalam prompt akan **menghabiskan kuota token secara drastis**
-                  dan menurunkan akurasi penalaran AI.
+                  Context Window menentukan batas memori aktif AI. Memasukkan berkas besar secara tidak terstruktur dapat mengurangi kecermatan penalaran AI.
                 </p>
                 <div className="bg-white rounded-lg p-3 border border-gray-200 space-y-1 text-xs font-mono">
                   <div className="flex justify-between text-[11px]">
-                    <span className="text-gray-500">Model LLM</span>
-                    <span className="font-bold text-black">Max Context</span>
+                    <span className="text-gray-500">Model AI</span>
+                    <span className="font-bold text-black">Batas Konteks</span>
                   </div>
                   <div className="flex justify-between text-[11px] pt-1 border-t">
                     <span>Gemini 1.5 Pro</span>
                     <span className="text-black font-bold">
-                      2,000,000 Tokens
+                      2,000,000 Token
                     </span>
                   </div>
                   <div className="flex justify-between text-[11px]">
                     <span>Claude 3.5 Sonnet</span>
                     <span className="text-black font-bold">
-                      200,000 Tokens
+                      200,000 Token
                     </span>
                   </div>
                 </div>
@@ -629,7 +619,7 @@ export interface ResourceItem {
                 <div className="flex items-center gap-2">
                   <Calculator className="h-5 w-5 text-gray-300" />
                   <h3 className="text-base font-bold text-white">
-                    Kalkulator Token Kode AI (Live Test)
+                    Kalkulator Token Kode
                   </h3>
                 </div>
                 <span className="text-[10px] font-mono bg-gray-800 text-gray-200 border border-gray-700 px-2 py-0.5 rounded">
@@ -641,7 +631,7 @@ export interface ResourceItem {
                 {/* Input snippet */}
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-gray-300">
-                    Tes Snippet Kode Singkat:
+                    Uji Potongan Kode:
                   </label>
                   <textarea
                     value={sampleText}
@@ -652,7 +642,7 @@ export interface ResourceItem {
                   <div className="flex justify-between text-[11px] text-gray-400">
                     <span>Karakter: {textLength}</span>
                     <span className="text-white font-bold">
-                      Est. Token: ~{estimatedTextTokens} token
+                      Estimasi: ~{estimatedTextTokens} token
                     </span>
                   </div>
                 </div>
@@ -661,7 +651,7 @@ export interface ResourceItem {
                 <div className="space-y-4 bg-gray-950 p-4 rounded-xl border border-gray-800 flex flex-col justify-between">
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-gray-300">
-                      Hitung Ukuran File Kode (Jumlah Baris):
+                      Hitung Ukuran Berkas Kode (Jumlah Baris):
                     </label>
                     <input
                       type="range"
@@ -674,18 +664,16 @@ export interface ResourceItem {
                     />
                     <div className="flex justify-between text-xs font-mono">
                       <span className="text-gray-400">
-                        Ukuran: {fileLines} baris kode
+                        Ukuran: {fileLines} baris
                       </span>
                       <span className="text-white font-bold">
-                        ~{estimatedFileTokens} tokens
+                        ~{estimatedFileTokens} token
                       </span>
                     </div>
                   </div>
 
                   <div className="p-3 bg-gray-900 border border-gray-800 rounded-lg text-xs text-gray-300 leading-relaxed">
-                    File dengan <strong>{fileLines} baris</strong> memakan
-                    sekitar <strong>{estimatedFileTokens} token</strong> per
-                    prompt context. Selalu pecah file jika melebihi 400 baris!
+                    Berkas dengan <strong>{fileLines} baris</strong> menggunakan sekitar <strong>{estimatedFileTokens} token</strong> per instruksi. Bagi berkas jika melebihi 400 baris.
                   </div>
                 </div>
               </div>
@@ -704,11 +692,10 @@ export interface ResourceItem {
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-black">
-                  Skill System & Orchestrator Agent
+                  Sistem Skill & Agent Orchestrator
                 </h2>
                 <p className="text-xs text-gray-500">
-                  Mekanisme modularisasi spesialisasi AI untuk tugas-tugas
-                  kompleks.
+                  Struktur spesialisasi AI Agent untuk pengerjaan tugas kompleks.
                 </p>
               </div>
             </div>
@@ -720,15 +707,14 @@ export interface ResourceItem {
                   <Code2 className="h-5 w-5" />
                 </div>
                 <h3 className="text-lg font-bold text-black">
-                  Apa itu AI Skill?
+                  Pengertian AI Skill
                 </h3>
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  **Skill** adalah direktori terisolasi berisi berkas{" "}
+                  Skill adalah berkas instruksi khusus (
                   <code className="bg-white border px-1 rounded font-mono font-semibold text-black">
                     SKILL.md
-                  </code>{" "}
-                  yang memberikan instruksi peran khusus (*specialized role*)
-                  beserta skrip bantuan dan referensi ke AI Agent.
+                  </code>
+                  ) yang mendefinisikan peran spesialisasi AI beserta aturan kerja yang harus dipatuhi.
                 </p>
                 <div className="bg-white rounded-xl p-3 border border-gray-200 space-y-2 text-xs">
                   <div className="font-bold text-gray-800">
@@ -736,13 +722,13 @@ export interface ResourceItem {
                   </div>
                   <div className="flex flex-wrap gap-1.5 font-mono text-[11px]">
                     <span className="bg-gray-100 text-black px-2 py-0.5 rounded border border-gray-200">
+                      antislop-copywriting
+                    </span>
+                    <span className="bg-gray-100 text-black px-2 py-0.5 rounded border border-gray-200">
+                      antislop-ui
+                    </span>
+                    <span className="bg-gray-100 text-black px-2 py-0.5 rounded border border-gray-200">
                       laravel-expert
-                    </span>
-                    <span className="bg-gray-100 text-black px-2 py-0.5 rounded border border-gray-200">
-                      seo-web
-                    </span>
-                    <span className="bg-gray-100 text-black px-2 py-0.5 rounded border border-gray-200">
-                      laravel-security-audit
                     </span>
                   </div>
                 </div>
@@ -754,25 +740,21 @@ export interface ResourceItem {
                   <Bot className="h-5 w-5" />
                 </div>
                 <h3 className="text-lg font-bold text-black">
-                  Apa itu Orchestrator Agent?
+                  Pengertian Agent Orchestrator
                 </h3>
                 <p className="text-xs text-gray-600 leading-relaxed">
-                  **Orchestrator Agent** (seperti Antigravity) adalah konduktor
-                  utama yang bertugas merencanakan (*Planning Mode*), memecah
-                  tugas besar menjadi sub-tugas kecil, dan memanggil sub-agent
-                  spesialis yang paling sesuai.
+                  Agent Orchestrator bertugas menyusun dokumen perencanaan (Planning Mode), membagi tugas menjadi tahapan kecil, dan memanggil sub-agent spesialis sesuai kebutuhan.
                 </p>
                 <div className="bg-white rounded-xl p-3 border border-gray-200 space-y-1.5 text-xs">
                   <div className="flex items-center justify-between text-[11px] font-bold text-black">
-                    <span>Input User</span>
+                    <span>Instruksi User</span>
                     <ArrowRight className="h-3 w-3 text-gray-400" />
                     <span>Orchestrator</span>
                     <ArrowRight className="h-3 w-3 text-gray-400" />
                     <span>Sub-Agents</span>
                   </div>
                   <p className="text-[11px] text-gray-500">
-                    Orchestrator menjaga arah arsitektur proyek agar tetap
-                    konsisten dari awal hingga akhir.
+                    Orchestrator menjaga kesesuaian arsitektur proyek selama proses pengembangan.
                   </p>
                 </div>
               </div>
@@ -783,7 +765,7 @@ export interface ResourceItem {
               <div className="flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-black" />
                 <h3 className="text-xl font-bold text-black">
-                  Teknik Planning & Instruksi AI Anti-Halusinasi (Per-Fase & Per-Task)
+                  Aturan Eksekusi AI Anti-Halusinasi
                 </h3>
               </div>
 
@@ -792,31 +774,31 @@ export interface ResourceItem {
                 <div className="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-3">
                   <h4 className="text-sm font-bold text-black flex items-center gap-2">
                     <Layers className="h-4 w-4 text-black" />
-                    4 Aturan Emas Mencegah Halusinasi Kode
+                    4 Aturan Utama Mencegah Halusinasi Kode
                   </h4>
                   <ul className="space-y-2 text-xs text-gray-700">
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="h-3.5 w-3.5 text-black flex-shrink-0 mt-0.5" />
                       <span>
-                        <strong>1. Wajibkan Planning Mode Terlebih Dahulu:</strong> Jangan biarkan AI langsung mengedit kode sebelum membuat dokumen <code className="bg-white px-1 border border-gray-200 rounded font-mono text-[10px] text-black">implementation_plan.md</code>.
+                        <strong>1. Wajibkan Planning Mode:</strong> Buat dokumen <code className="bg-white px-1 border border-gray-200 rounded font-mono text-[10px] text-black">implementation_plan.md</code> sebelum mengubah kode.
                       </span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="h-3.5 w-3.5 text-black flex-shrink-0 mt-0.5" />
                       <span>
-                        <strong>2. Eksekusi Atomic (1 Task 1 Langkah):</strong> Perintahkan AI untuk mengeksekusi <strong>hanya 1 sub-task</strong> pada satu waktu, lalu berhenti dan minta verifikasi.
+                        <strong>2. Eksekusi Bertahap:</strong> Perintahkan AI menyelesaikan 1 tugas pada satu waktu lalu minta verifikasi.
                       </span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="h-3.5 w-3.5 text-black flex-shrink-0 mt-0.5" />
                       <span>
-                        <strong>3. Verifikasi Empiris Rutin:</strong> Wajibkan AI menjalankan perintah build/test (<code className="bg-white px-1 border border-gray-200 rounded font-mono text-[10px] text-black">tsc</code> / <code className="bg-white px-1 border border-gray-200 rounded font-mono text-[10px] text-black">pnpm test</code>) setelah setiap pengeditan.
+                        <strong>3. Verifikasi Empiris:</strong> Jalankan perintah build atau pengujian (<code className="bg-white px-1 border border-gray-200 rounded font-mono text-[10px] text-black">tsc</code> / <code className="bg-white px-1 border border-gray-200 rounded font-mono text-[10px] text-black">pnpm test</code>) setelah pengeditan.
                       </span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="h-3.5 w-3.5 text-black flex-shrink-0 mt-0.5" />
                       <span>
-                        <strong>4. Larang Tebakan/Dummy Schema:</strong> AI dilarang mengonsumsi schema atau variable tanpa mengecek definisi aslinya di file sumber.
+                        <strong>4. Tanpa Asumsi Schema:</strong> Periksa definisi variabel dan skema asli di dalam berkas sumber sebelum menulis fungsi pendukung.
                       </span>
                     </li>
                   </ul>
@@ -825,7 +807,7 @@ export interface ResourceItem {
                 {/* Prompt Template Siap Pakai */}
                 <div className="bg-gray-900 text-white rounded-xl border border-gray-800 p-5 space-y-3">
                   <div className="flex items-center justify-between border-b border-gray-800 pb-2">
-                    <span className="text-xs font-bold text-gray-200">Template Prompt Anti-Halusinasi</span>
+                    <span className="text-xs font-bold text-gray-200">Template Prompt Planning Mode</span>
                     <button
                       onClick={() => handleCopy("prompt-plan", `[PROMPT PLANNING MODE]
 Sebelum menulis atau mengedit kode apapun:
@@ -843,10 +825,128 @@ Sebelum menulis atau mengedit kode apapun:
 {`"Sebelum menulis kode:
 1. Baca PRD.md & SDD.md.
 2. Buat implementation_plan.md per fase & per task.
-3. Kerjakan HANYA Task 1.1 terlebih dahulu.
+3. Kerjakan Task 1.1 terlebih dahulu.
 4. Jalankan 'npx tsc' untuk memverifikasi.
-5. Tunggu konfirmasi saya sebelum lanjut ke Task 1.2."`}
+5. Tunggu konfirmasi sebelum lanjut ke Task 1.2."`}
                   </pre>
+                </div>
+              </div>
+            </div>
+
+            {/* Integration of Anti-Slop AI Skills & Manual Installation Guide */}
+            <div className="border-t border-gray-200 pt-6 space-y-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-black text-white p-5 rounded-2xl">
+                <div className="space-y-1">
+                  <div className="inline-flex items-center gap-2 text-xs font-mono font-bold bg-gray-800 text-gray-200 px-2.5 py-0.5 rounded border border-gray-700">
+                    <ShieldCheck className="h-3.5 w-3.5 text-white" />
+                    <span>Skill Integration</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-white">
+                    Anti-Slop AI Rules & Skills
+                  </h3>
+                  <p className="text-xs text-gray-300">
+                    Karya <strong className="text-white">Miqdad Badjuber</strong> — Repositori Resmi:{" "}
+                    <a
+                      href="https://github.com/miqdadbadjuber/anti-slop"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline font-mono text-white hover:text-gray-300"
+                    >
+                      github.com/miqdadbadjuber/anti-slop
+                    </a>
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 font-mono text-xs">
+                  <span className="bg-gray-800 border border-gray-700 px-3 py-1 rounded-lg text-gray-200">
+                    antislop-copywriting
+                  </span>
+                  <span className="bg-gray-800 border border-gray-700 px-3 py-1 rounded-lg text-gray-200">
+                    antislop-ui
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Visual Anti-Slop Overview */}
+                <div className="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-3">
+                  <h4 className="text-sm font-bold text-black flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-black" />
+                    Prinsip Utama Anti-Slop AI
+                  </h4>
+                  <ul className="space-y-2 text-xs text-gray-700">
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold text-black min-w-[100px]">1. Tanpa Buzzword:</span>
+                      <span>Hindari istilah klise ("unlock", "elevate", "cutting-edge", "seamless", "next-level").</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold text-black min-w-[100px]">2. Kalimat Lugas:</span>
+                      <span>Gunakan kalimat langsung tanpa frasa tambahan yang tidak informatif.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold text-black min-w-[100px]">3. Antarmuka Bersih:</span>
+                      <span>Tanpa gradien berlebih, efek glow neon, atau pola pill-shape seragam.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold text-black min-w-[100px]">4. Kontras Tinggi:</span>
+                      <span>Gunakan skema warna hitam-putih shadcn UI dengan garis batas yang jelas.</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Manual Installation Guide */}
+                <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-4 shadow-xs">
+                  <div className="flex items-center justify-between border-b border-gray-100 pb-2">
+                    <h4 className="text-sm font-bold text-black">
+                      Panduan Instalasi Manual Skill
+                    </h4>
+                    <span className="text-[10px] font-mono bg-gray-100 text-black px-2 py-0.5 rounded border border-gray-200 font-bold">
+                      CLI & IDE Guide
+                    </span>
+                  </div>
+
+                  <div className="space-y-3 text-xs">
+                    <div className="space-y-1">
+                      <span className="font-bold text-black">A. Antigravity IDE / AGY CLI (Global):</span>
+                      <div className="bg-gray-900 text-white rounded-lg p-2.5 font-mono text-[11px] flex justify-between items-center">
+                        <code className="text-gray-200">cp -r skill/* ~/.gemini/config/skills/</code>
+                        <button
+                          onClick={() => handleCopy("install-global", "mkdir -p ~/.gemini/config/skills && cp -r skill/* ~/.gemini/config/skills/")}
+                          className="p-1 hover:bg-gray-800 rounded text-gray-300 cursor-pointer"
+                          title="Copy command"
+                        >
+                          {copiedKey === "install-global" ? <Check className="h-3.5 w-3.5 text-white" /> : <Copy className="h-3.5 w-3.5" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <span className="font-bold text-black">B. Workspace Antigravity (.agents):</span>
+                      <div className="bg-gray-900 text-white rounded-lg p-2.5 font-mono text-[11px] flex justify-between items-center">
+                        <code className="text-gray-200">cp -r skill/* .agents/skills/</code>
+                        <button
+                          onClick={() => handleCopy("install-workspace", "mkdir -p .agents/skills && cp -r skill/* .agents/skills/")}
+                          className="p-1 hover:bg-gray-800 rounded text-gray-300 cursor-pointer"
+                          title="Copy command"
+                        >
+                          {copiedKey === "install-workspace" ? <Check className="h-3.5 w-3.5 text-white" /> : <Copy className="h-3.5 w-3.5" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1 pt-1 border-t border-gray-100">
+                      <span className="font-bold text-black">C. Repositori GitHub Original:</span>
+                      <div className="bg-gray-900 text-white rounded-lg p-2.5 font-mono text-[11px] flex justify-between items-center">
+                        <code className="text-gray-200">git clone https://github.com/miqdadbadjuber/anti-slop.git</code>
+                        <button
+                          onClick={() => handleCopy("install-git", "git clone https://github.com/miqdadbadjuber/anti-slop.git")}
+                          className="p-1 hover:bg-gray-800 rounded text-gray-300 cursor-pointer"
+                          title="Copy command"
+                        >
+                          {copiedKey === "install-git" ? <Check className="h-3.5 w-3.5 text-white" /> : <Copy className="h-3.5 w-3.5" />}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -864,11 +964,10 @@ Sebelum menulis atau mengedit kode apapun:
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-black">
-                  Quality, Security & Automated Testing
+                  Pengujian Kualitas & Keamanan
                 </h2>
                 <p className="text-xs text-gray-500">
-                  Prosedur penjaminan mutu sebelum aplikasi rilis ke lingkungan
-                  produksi.
+                  Prosedur pengujian mutu sebelum merilis aplikasi ke produksi.
                 </p>
               </div>
             </div>
@@ -883,9 +982,7 @@ Sebelum menulis atau mengedit kode apapun:
                   1. Security Audit
                 </h3>
                 <p className="text-xs text-gray-500 leading-relaxed">
-                  Pemeriksaan celah keamanan kode berdasarkan standar OWASP.
-                  Memastikan tidak ada SQL Injection, XSS, kebocoran API Key di
-                  Git, atau celah autentikasi.
+                  Pemeriksaan celah keamanan berdasarkan standar OWASP untuk mencegah SQL Injection, XSS, dan kebocoran kredensial.
                 </p>
               </div>
 
@@ -898,9 +995,7 @@ Sebelum menulis atau mengedit kode apapun:
                   2. Stress Test
                 </h3>
                 <p className="text-xs text-gray-500 leading-relaxed">
-                  Pengujian ketahanan beban server (Load Testing). Mengukur
-                  latency (ms), throughput (RPS), dan memory leak saat diserbu
-                  ribuan virtual user bersamaan.
+                  Pengujian beban server untuk mengukur latensi (ms), throughput (RPS), dan pemakaian memori saat diakses secara bersamaan.
                 </p>
               </div>
 
@@ -913,9 +1008,7 @@ Sebelum menulis atau mengedit kode apapun:
                   3. Automated QA Browser Bot
                 </h3>
                 <p className="text-xs text-gray-500 leading-relaxed">
-                  Pengujian UI berbasis AI Browser Subagent. Bot membuka browser
-                  nyata, melakukan klik tombol, mengetik form, dan mengambil
-                  screenshot/rekaman video otomatis.
+                  Pengujian antarmuka menggunakan subagent browser untuk memverifikasi fungsionalitas elemen dan merekam alur penggunaan.
                 </p>
               </div>
             </div>
@@ -933,10 +1026,10 @@ Sebelum menulis atau mengedit kode apapun:
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-black">
-                  Checklist Workflow Vibe Coding Ideal
+                  Checklist Alur Kerja Vibe Coding
                 </h2>
                 <p className="text-xs text-gray-500">
-                  Urutan langkah praktis dari nol hingga rilis produksi.
+                  Tahapan pelaksanaan dari tahap perencanaan hingga produksi.
                 </p>
               </div>
             </div>
@@ -944,24 +1037,24 @@ Sebelum menulis atau mengedit kode apapun:
             <div className="space-y-3">
               {[
                 {
-                  step: "Fase 1: Blueprint",
-                  desc: "Buat PRD.md, SDD.md, dan DESIGN.md di folder proyek Anda.",
+                  step: "Fase 1: Dokumen Blueprint",
+                  desc: "Susun PRD.md, SDD.md, dan DESIGN.md pada direktori proyek.",
                 },
                 {
                   step: "Fase 2: Planning Mode",
-                  desc: "Biarkan AI Orchestrator membuat implementation_plan.md sebelum menulis baris kode pertama.",
+                  desc: "Instruksikan AI Orchestrator membuat implementation_plan.md sebelum mengubah kode.",
                 },
                 {
-                  step: "Fase 3: Clean Execution",
-                  desc: "Pastikan file kode terbagi modular (< 300 baris) untuk efisiensi token AI.",
+                  step: "Fase 3: Eksekusi Modular",
+                  desc: "Jaga ukuran berkas kode (< 300 baris) agar pemrosesan token tetap efisien.",
                 },
                 {
-                  step: "Fase 4: Verification & QA Bot",
-                  desc: "Jalankan tes otomatis browser bot & unit test untuk memverifikasi UI/UX.",
+                  step: "Fase 4: Verifikasi & QA",
+                  desc: "Jalankan pengujian build dan tes otomatis untuk memverifikasi fungsi antarmuka.",
                 },
                 {
-                  step: "Fase 5: Security & Stress Audit",
-                  desc: "Lakukan pemindaian celah keamanan & stress test sebelum melakukan pnpm build.",
+                  step: "Fase 5: Audit & Build Produksi",
+                  desc: "Lakukan pemeriksaan keamanan dan pengujian beban sebelum mengompilasi aplikasi.",
                 },
               ].map((item, idx) => (
                 <div

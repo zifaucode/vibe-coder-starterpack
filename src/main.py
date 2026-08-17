@@ -10,6 +10,12 @@ from loguru import logger
 class Api:
     """API Bridge between Python and React UI"""
     
+    def __init__(self):
+        self._window = None
+
+    def set_window(self, window):
+        self._window = window
+
     def get_system_info(self):
         return {
             "app_name": settings.app_name,
@@ -21,6 +27,38 @@ class Api:
     def log_message(self, message):
         logger.info(f"Frontend log: {message}")
         return "Message received by Python"
+
+    def save_file(self, filename: str, content: str):
+        """Native file save handler for PyWebView desktop application"""
+        try:
+            target_path = None
+            if self._window:
+                result = self._window.create_file_dialog(
+                    webview.SAVE_DIALOG,
+                    save_filename=filename,
+                    file_types=('Markdown Files (*.md)', 'All files (*.*)')
+                )
+                if result:
+                    target_path = result[0] if isinstance(result, (list, tuple)) else result
+            
+            # If user canceled dialog in PyWebView
+            if not target_path and self._window and result is not None:
+                return {"success": False, "message": "Save canceled by user"}
+
+            # Fallback if dialog is not available
+            if not target_path:
+                downloads_dir = os.path.join(os.path.expanduser("~"), "Downloads")
+                os.makedirs(downloads_dir, exist_ok=True)
+                target_path = os.path.join(downloads_dir, filename)
+
+            with open(target_path, 'w', encoding='utf-8') as f:
+                f.write(content)
+
+            logger.info(f"File saved successfully to: {target_path}")
+            return {"success": True, "path": target_path}
+        except Exception as e:
+            logger.error(f"Error saving file {filename}: {e}")
+            return {"success": False, "error": str(e)}
 
 def get_base64_logo():
     """Load VCS logo as base64 string for standalone splash screen"""
@@ -150,6 +188,7 @@ def main():
             min_size=(900, 600),
             background_color='#FFFFFF'
         )
+        api.set_window(window)
         webview.start(debug=True)
     else:
         base_path = sys._MEIPASS
@@ -171,6 +210,7 @@ def main():
             min_size=(900, 600),
             background_color='#000000'
         )
+        api.set_window(window)
         webview.start(start_app_flow, (window, app_url), debug=False)
 
 if __name__ == "__main__":

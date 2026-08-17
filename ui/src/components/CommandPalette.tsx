@@ -13,6 +13,7 @@ import {
   User,
   Command,
   ArrowRight,
+  ShieldCheck,
   X,
 } from "lucide-react";
 
@@ -39,6 +40,14 @@ const COMMAND_ITEMS: CommandItem[] = [
     description: "Template PRD.md, SDD.md, DESIGN.md, Kalkulator Token AI, & Panduan Anti-Slop",
     keywords: ["prd", "sdd", "design.md", "token", "ai slop", "blueprint", "template", "intro"],
     icon: BookOpen,
+  },
+  {
+    id: "introduction",
+    title: "Anti-Slop AI Rules & Skills (Miqdad Badjuber)",
+    category: "Getting Started",
+    description: "Panduan aturan Anti-Slop AI (Copywriting & UI) dan instruksi pasang manual CLI",
+    keywords: ["anti slop", "antislop", "copywriting", "ui", "miqdad badjuber", "skill", "manual install"],
+    icon: ShieldCheck,
   },
   {
     id: "stacktech",

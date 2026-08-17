@@ -11,7 +11,8 @@ import {
   Fingerprint,
   Command,
   ArrowRight,
-  Sparkles,
+  ShieldCheck,
+  LayoutDashboard,
 } from "lucide-react";
 
 interface DashboardProps {
@@ -22,14 +23,20 @@ interface DashboardProps {
 export default function Dashboard({ onNavigateTab, onOpenCommandPalette }: DashboardProps) {
   const MODULE_CATEGORIES = [
     {
-      title: "1. Getting Started",
-      description: "Panduan pondasi arsitektur, pilihan tech stack & strategi rilis produksi",
+      title: "1. Getting Started & AI Rules",
+      description: "Pondasi arsitektur, pilihan tech stack, strategi rilis & aturan Anti-Slop AI",
       items: [
         {
           id: "introduction",
           title: "Introduction & Blueprint",
-          desc: "Download PRD.md, SDD.md, DESIGN.md, Kalkulator Token AI & Anti-Slop Guide",
+          desc: "PRD.md, SDD.md, DESIGN.md, Kalkulator Token AI & Panduan Anti-Halusinasi",
           icon: BookOpen,
+        },
+        {
+          id: "introduction",
+          title: "Anti-Slop AI & Instalasi Manual",
+          desc: "Aturan Anti-Slop (Copywriting & UI) oleh Miqdad Badjuber & panduan pasang manual",
+          icon: ShieldCheck,
         },
         {
           id: "stacktech",
@@ -97,7 +104,7 @@ export default function Dashboard({ onNavigateTab, onOpenCommandPalette }: Dashb
           desc: "Enkripsi dan dekripsi teks atau berkas ke format string Base64",
           icon: Fingerprint,
         },
-      ],
+        ],
     },
   ];
 
@@ -107,22 +114,22 @@ export default function Dashboard({ onNavigateTab, onOpenCommandPalette }: Dashb
       <div className="space-y-4 border-b border-gray-200 pb-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1.5">
-            <div className="inline-flex items-center rounded-full border border-black/10 bg-white px-3.5 py-1 text-xs font-semibold text-black shadow-xs gap-2">
-              <Sparkles className="h-3.5 w-3.5 text-black" />
-              <span>Vibe Coder Control Center</span>
+            <div className="inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-1 text-xs font-semibold text-black shadow-xs gap-2">
+              <LayoutDashboard className="h-3.5 w-3.5 text-black" />
+              <span>VCS Navigation Hub</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-black tracking-tight text-black leading-tight">
               Vibe Coder Dashboard
             </h1>
             <p className="text-muted-foreground text-sm md:text-base max-w-2xl leading-relaxed">
-              Pusat navigasi ringkas seluruh modul starterpack. Gunakan tombol pencarian pintar atau tekan <kbd className="font-mono bg-gray-100 border border-gray-300 text-black px-1.5 py-0.5 rounded text-xs">Ctrl + K</kbd> untuk membuka Command Palette.
+              Navigasi terpusat seluruh modul starterpack. Gunakan Command Palette (<kbd className="font-mono bg-gray-100 border border-gray-300 text-black px-1.5 py-0.5 rounded text-xs">Ctrl + K</kbd>) untuk akses cepat.
             </p>
           </div>
 
           {/* Command Palette Trigger Button */}
           <button
             onClick={onOpenCommandPalette}
-            className="inline-flex items-center justify-between gap-4 bg-black hover:bg-gray-800 text-white p-3.5 rounded-2xl shadow-md transition-all cursor-pointer group active:scale-95 border border-gray-800 min-w-[240px]"
+            className="inline-flex items-center justify-between gap-4 bg-black hover:bg-gray-800 text-white p-3.5 rounded-xl shadow-xs transition-all cursor-pointer group border border-gray-800 min-w-[240px]"
           >
             <div className="flex items-center gap-2.5">
               <Command className="h-4 w-4 text-white" />
@@ -145,20 +152,20 @@ export default function Dashboard({ onNavigateTab, onOpenCommandPalette }: Dashb
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {cat.items.map((item) => {
+              {cat.items.map((item, itemIdx) => {
                 const Icon = item.icon;
                 return (
                   <div
-                    key={item.id}
+                    key={`${item.id}-${itemIdx}`}
                     onClick={() => onNavigateTab(item.id)}
-                    className="bg-white rounded-2xl border border-gray-200 p-5 space-y-3 shadow-xs hover:border-black transition-all cursor-pointer flex flex-col justify-between group active:scale-98"
+                    className="bg-white rounded-xl border border-gray-200 p-5 space-y-3 shadow-xs hover:border-black transition-all cursor-pointer flex flex-col justify-between group"
                   >
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <div className="w-10 h-10 rounded-xl bg-gray-100 border border-gray-200 text-black flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all">
+                        <div className="w-10 h-10 rounded-lg bg-gray-100 border border-gray-200 text-black flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all">
                           <Icon className="h-5 w-5" />
                         </div>
-                        <ArrowRight className="h-4 w-4 text-gray-300 group-hover:text-black group-hover:translate-x-1 transition-all" />
+                        <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-black group-hover:translate-x-0.5 transition-all" />
                       </div>
                       <div>
                         <h3 className="text-base font-bold text-black group-hover:underline">
@@ -172,7 +179,7 @@ export default function Dashboard({ onNavigateTab, onOpenCommandPalette }: Dashb
 
                     <div className="pt-2 border-t border-gray-100 flex items-center justify-between text-[11px] font-mono text-gray-400">
                       <span>Buka Modul</span>
-                      <span className="font-bold text-black">→</span>
+                      <span className="font-bold text-black">Buka</span>
                     </div>
                   </div>
                 );

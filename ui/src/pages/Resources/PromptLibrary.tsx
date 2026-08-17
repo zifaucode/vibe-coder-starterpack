@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PROMPTS, CATEGORIES, type Category, type PromptItem } from "../../lib/prompts";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, Sparkles, Search, Layers, X, Code2, ArrowUpRight } from "lucide-react";
+import { Copy, Check, Boxes, Search, Layers, X, Code2, ArrowUpRight } from "lucide-react";
 import Wireframe from "@/components/Wireframe";
 
 export default function PromptLibrary() {
@@ -39,8 +39,8 @@ export default function PromptLibrary() {
     <div className="max-w-6xl w-full mx-auto space-y-8 animate-in fade-in duration-500 pb-16">
       {/* Header section */}
       <div className="space-y-4">
-        <div className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-semibold text-black shadow-xs">
-          <Sparkles className="mr-2 h-3.5 w-3.5 text-black" />
+        <div className="inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-1 text-xs font-semibold text-black shadow-xs">
+          <Boxes className="mr-2 h-3.5 w-3.5 text-black" />
           <span>{PROMPTS.length} Komponen Website & Prompt Ready</span>
         </div>
         <h1 className="text-4xl font-extrabold tracking-tight text-black">

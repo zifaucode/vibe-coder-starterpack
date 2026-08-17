@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import {
   User,
   Heart,
-  Sparkles,
   ExternalLink,
   Star,
   BookOpen,
@@ -47,15 +46,15 @@ export default function AboutMe() {
               className="w-20 h-20 rounded-2xl object-cover border border-black shadow-md flex-shrink-0"
             />
             <div className="space-y-1">
-              <div className="inline-flex items-center rounded-full border border-black/10 bg-gray-100 px-3 py-0.5 text-xs font-semibold text-black gap-1.5">
-                <Sparkles className="h-3 w-3 text-black" />
-                <span>Created by zifaucode</span>
+              <div className="inline-flex items-center rounded-md border border-black/10 bg-gray-100 px-3 py-0.5 text-xs font-semibold text-black gap-1.5">
+                <User className="h-3 w-3 text-black" />
+                <span>Pengembang: zifaucode</span>
               </div>
               <h1 className="text-3xl md:text-4xl font-black tracking-tight text-black">
                 Vibe Coder Starterpack
               </h1>
               <p className="text-xs md:text-sm text-gray-500 font-mono">
-                Ekosistem & Dokumentasi AI-Assisted Development
+                Dokumentasi Arsitektur & Perkakas Vibe Coding
               </p>
             </div>
           </div>
@@ -192,9 +191,9 @@ export default function AboutMe() {
 
           <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
             <Zap className="h-5 w-5 text-black" />
-            <h3 className="text-xs font-bold text-black">Prompt Engineering</h3>
+            <h3 className="text-xs font-bold text-black">Anti-Slop AI Rules</h3>
             <p className="text-[11px] text-gray-600 leading-relaxed">
-              Teknik penyusunan instruksi yang terstruktur dan rinci agar AI Agent dapat menghasilkan kode yang valid.
+              Aturan penulisan & UI karya <a href="https://github.com/miqdadbadjuber/anti-slop" target="_blank" rel="noreferrer" className="font-bold underline text-black">Miqdad Badjuber</a> untuk mengeliminasi kode dan copywrite artifisial.
             </p>
           </div>
 
@@ -220,9 +219,9 @@ export default function AboutMe() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
             <BookOpen className="h-5 w-5 text-black" />
-            <h3 className="text-xs font-bold text-black">Blueprint Document</h3>
+            <h3 className="text-xs font-bold text-black">Blueprint & Anti-Slop</h3>
             <p className="text-[11px] text-gray-500 leading-relaxed">
-              Standardized PRD.md, SDD.md & DESIGN.md template for AI Agents.
+              Standardized PRD, SDD & Anti-Slop rules (Miqdad Badjuber) for AI Agents.
             </p>
           </div>
 
@@ -257,7 +256,7 @@ export default function AboutMe() {
         <div className="flex items-center justify-center gap-2 text-xs font-mono text-gray-400">
           <span>Made with</span>
           <Heart className="h-3.5 w-3.5 text-white fill-white" />
-          <span>by zifaucode for Vibe Coding Community</span>
+          <span>by zifaucode • Anti-Slop rules by Miqdad Badjuber</span>
         </div>
         <div className="text-sm font-bold text-white">
           Vibe Coder Starterpack • Open Source AI Ecosystem
