@@ -15,6 +15,10 @@ import {
   ArrowRight,
   ShieldCheck,
   X,
+  Monitor,
+  Bot,
+  Puzzle,
+  Plug,
 } from "lucide-react";
 
 interface CommandPaletteProps {
@@ -26,7 +30,7 @@ interface CommandPaletteProps {
 interface CommandItem {
   id: string;
   title: string;
-  category: "Getting Started" | "Design" | "Developer";
+  category: "Getting Started" | "Design" | "Tools" | "Developer";
   description: string;
   keywords: string[];
   icon: any;
@@ -96,6 +100,38 @@ const COMMAND_ITEMS: CommandItem[] = [
     description: "Alur Pre-design, Wireframing Lo-Fi vs Hi-Fi, Figma, & Google Stitch AI",
     keywords: ["ui", "ux", "wireframe", "figma", "google stitch", "lofi", "hifi", "prototype"],
     icon: LayoutTemplate,
+  },
+  {
+    id: "tools-ide",
+    title: "IDE & Editor",
+    category: "Tools",
+    description: "Zed, Antigravity: pemasangan dan cara memakainya bersama agent",
+    keywords: ["ide", "editor", "zed", "antigravity", "agent manager"],
+    icon: Monitor,
+  },
+  {
+    id: "tools-agent",
+    title: "Agent",
+    category: "Tools",
+    description: "Claude Code dan agent koding lain: pemasangan, aturan, dan tips",
+    keywords: ["agent", "claude code", "cli", "claude.md"],
+    icon: Bot,
+  },
+  {
+    id: "tools-skill",
+    title: "Plugin & Skill",
+    category: "Tools",
+    description: "Dasar skill dan plugin Claude, plus ponytail, antislop, ui-ux-pro-max",
+    keywords: ["plugin", "skill", "claude", "ponytail", "antislop", "ui-ux-pro-max"],
+    icon: Puzzle,
+  },
+  {
+    id: "tools-mcp",
+    title: "MCP Server",
+    category: "Tools",
+    description: "Menyambungkan agent ke browser, berkas, dan dokumentasi lewat MCP",
+    keywords: ["mcp", "server", "playwright", "context7", "filesystem"],
+    icon: Plug,
   },
   {
     id: "json-formatter",

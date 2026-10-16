@@ -1,0 +1,68 @@
+import { B, Bx, C, D, F, G, I, O, P, R, T, W } from "../components/Blueprint";
+import { mk } from "./promptKit";
+
+export const MORE_B = [
+  // FOOTER
+  mk("footer-4", "Footers", "Footer Toko dengan Kontak", "Alamat, jam buka, peta kecil, dan tautan bantuan.", ["Footer", "Contact", "Local"],
+    "Bisnis dengan lokasi fisik atau layanan pelanggan.",
+    "Design a footer for a business with a physical location. Columns: address and opening hours as real text, a small map image with alt text and a 'Get directions' link, and help links (shipping, returns, contact). Phone and email are tappable links. Keep Terms and Privacy links in a bottom row with the copyright line.",
+    C(G(3, Bx("Alamat dan jam buka", T("Alamat"), T("Jam buka")), I("Peta kecil + Petunjuk arah"), Bx("Bantuan", T("Pengiriman"), T("Pengembalian"), T("Kontak"))), R(T("Syarat"), T("Privasi"), T("Hak cipta")))),
+  mk("footer-5", "Footers", "Footer Legal Minimal", "Dua baris: tautan hukum dan hak cipta. Cukup untuk proyek kecil.", ["Footer", "Minimal", "Legal"],
+    "Landing page atau portofolio dengan sedikit halaman.",
+    "Create a minimal footer: one row with Terms, Privacy, and Contact links, and a copyright line with the current year computed in code. Centered on mobile, split left/right on desktop. Link targets are at least 24x24px.",
+    C(R(T("Syarat"), T("Privasi"), T("Kontak")), T("Hak cipta dan tahun berjalan"))),
+
+  // ECOMMERCE
+  mk("ecommerce-4", "E-Commerce", "Daftar Produk dengan Filter", "Filter di kiri, grid hasil di kanan, jumlah hasil di atas.", ["Ecommerce", "Filter", "Listing"],
+    "Katalog dengan puluhan produk atau lebih.",
+    "Build a product listing page. Left: a filter panel (category, price range, size, in stock) with a Clear all button; on mobile it opens as a bottom sheet. Right: a results header with count and sort select, then a responsive product grid. Active filters appear as removable chips. Include loading skeletons and a 'No products match' state with a Clear filters action.",
+    R(Bx("Filter", T("Kategori"), T("Rentang harga"), T("Ukuran"), O("Hapus semua")), W(3, C(R(T("Jumlah hasil (angka nyata)"), F("Urutkan")), R(D("Filter aktif x"), D("Filter aktif x")), G(3, I("Produk + nama + harga"), I("Produk + nama + harga"), I("Produk + nama + harga")))))),
+  mk("ecommerce-5", "E-Commerce", "Checkout Satu Halaman", "Kontak, pengiriman, pembayaran di kiri; ringkasan pesanan menempel di kanan.", ["Ecommerce", "Checkout", "Form"],
+    "Menyelesaikan pembelian tanpa banyak langkah.",
+    "Design a one-page checkout. Left: contact, shipping, and payment sections as numbered groups. Right: a sticky order summary with items, shipping, tax, and total. Use autocomplete attributes, do not ask for data twice, show inline errors, and make the Pay button show loading and prevent double submit. Show all costs before the final step.",
+    R(W(2, C(Bx("1 Kontak", F("Email")), Bx("2 Pengiriman", F("Alamat"), F("Kota")), Bx("3 Pembayaran", F("Metode pembayaran")))), Bx("Ringkasan pesanan (menempel)", T("Item"), T("Ongkir"), T("Pajak"), T("Total"), B("Bayar")))),
+  mk("ecommerce-6", "E-Commerce", "Konfirmasi Pesanan", "Halaman setelah bayar: nomor pesanan, ringkasan, langkah berikutnya.", ["Ecommerce", "Confirmation", "Success"],
+    "Layar yang muncul setelah pembayaran berhasil.",
+    "Create an order confirmation page. A clear success heading with the order number, the email the receipt was sent to, an order summary, delivery estimate, and a single next action (Track order). Add a secondary link to continue shopping. Everything shown comes from the actual order data.",
+    C(D("Tanda berhasil"), T("Judul: Pesanan diterima + nomor pesanan"), T("Struk dikirim ke email"), Bx("Ringkasan pesanan", T("Item"), T("Perkiraan tiba")), R(B("Lacak pesanan"), O("Lanjut belanja")))),
+  mk("ecommerce-7", "E-Commerce", "Ulasan Produk", "Rating ringkas, filter ulasan, dan daftar ulasan di halaman produk.", ["Ecommerce", "Reviews", "PDP"],
+    "Bagian bawah halaman detail produk.",
+    "Design a product reviews block. Top: average rating, review count, and a 5-to-1 distribution. Controls: sort and filter by rating. List: stars with text alternative, title, body, date, and a 'Verified purchase' label only for real verified orders. Include a Write a review button and an empty state.",
+    C(R(T("Rata-rata + jumlah ulasan"), T("Sebaran bintang")), R(F("Urutkan"), F("Filter bintang"), B("Tulis ulasan")), Bx("Daftar ulasan", T("Bintang + judul + isi + tanggal"), T("Bintang + judul + isi + tanggal")))),
+
+  // MODAL
+  mk("modal-4", "Modals & Popups", "Form di dalam Modal", "Tambah atau ubah data tanpa pindah halaman.", ["Modal", "Form", "Dialog"],
+    "Aksi singkat dengan 1 sampai 5 isian.",
+    "Build a modal form dialog. role=dialog with aria-modal and a labelled title, focus moves to the first field on open, is trapped inside, and returns to the trigger on close. Close with the X button, Esc, or Cancel. Warn before closing with unsaved changes. Primary button shows loading and disables during save.",
+    C(I("Halaman di belakang (digelapkan)"), Bx("Dialog: Tambah data", T("Judul + tombol tutup"), F("Isian 1"), F("Isian 2"), R(O("Batal"), B("Simpan"))))),
+  mk("modal-5", "Modals & Popups", "Toast Notifikasi", "Pesan singkat di sudut layar: berhasil, error, atau dengan Undo.", ["Toast", "Feedback", "Notification"],
+    "Umpan balik setelah aksi, tanpa menghentikan pekerjaan pengguna.",
+    "Create a toast system with three variants: success, error, and info with an Undo action. Toasts stack in a corner, auto-dismiss after 3-5 seconds (errors stay until dismissed), never take focus, and are announced through an aria-live=polite region. Each has an icon and text, not colour alone, and a close button.",
+    C(I("Halaman"), Bx("Sudut kanan bawah", R(D("Ikon"), T("Pesan berhasil"), O("Tutup")), R(D("Ikon"), T("Pesan error + penyebab"), O("Coba lagi")), R(D("Ikon"), T("Item dihapus"), O("Urungkan"))))),
+  mk("modal-6", "Modals & Popups", "Panel Samping (Drawer) Detail", "Detail item muncul dari kanan tanpa meninggalkan daftar.", ["Drawer", "Detail", "SidePanel"],
+    "Melihat atau mengubah detail satu baris tabel.",
+    "Design a right-side drawer for item details. Slides in from the right (150-250ms, no motion under reduced-motion), width about 420px, with a sticky header (title, close) and a sticky footer (Save / Cancel). Clicking the scrim or pressing Esc closes it. Focus is trapped while open and the list behind keeps its scroll position.",
+    R(I("Daftar di belakang (digelapkan)"), Bx("Drawer dari kanan", R(T("Judul"), O("Tutup")), T("Isi detail"), T("Isi detail"), R(O("Batal"), B("Simpan"))))),
+  mk("modal-7", "Modals & Popups", "Bottom Sheet Mobile", "Panel yang naik dari dasar layar ponsel, bisa digeser turun.", ["Sheet", "Mobile", "Actions"],
+    "Pilihan aksi atau filter singkat di ponsel.",
+    "Create a mobile bottom sheet. A drag handle, a title, then the content, with a dimmed scrim behind. Dismiss by swiping down, tapping the scrim, or a visible Close button (a swipe must never be the only way). Respect the bottom safe area and keep action buttons at least 44px high.",
+    P(I("Konten (digelapkan)"), Bx("Sheet naik dari bawah", D("Handle geser"), T("Judul"), O("Aksi 1"), O("Aksi 2"), B("Tutup")))),
+
+  // CTA & BANNERS
+  mk("cta-3", "CTA & Banners", "Banner Pengumuman Atas", "Satu baris di puncak halaman, bisa ditutup dan tidak kembali.", ["Banner", "Announcement", "Dismissible"],
+    "Pengumuman yang benar-benar baru (rilis, jadwal, perubahan layanan).",
+    "Build a top announcement bar. One line of text plus one link, centered, height under 48px, with a close button that has an accessible name. Remember the dismissal in storage so it stays closed. It sits above the header in normal flow and must not cover content or focused elements.",
+    C(Bx("Bar pengumuman (tinggi di bawah 48px)", R(W(5, T("Satu kalimat + tautan")), O("Tutup"))), R(D("Logo"), T("Menu"), B("Aksi")))),
+  mk("cta-4", "CTA & Banners", "CTA Newsletter Sebaris", "Satu baris: kalimat ajakan, kolom email, tombol.", ["CTA", "Newsletter", "Inline"],
+    "Mengumpulkan email di akhir artikel atau halaman.",
+    "Design an inline newsletter signup. A one-sentence promise of what subscribers get and how often, an email field with a visible label, and a Subscribe button. Show validation under the field and a success message in place of the form. State where the data goes with a link to the Privacy policy.",
+    Bx("Ajakan berlangganan", T("Apa yang didapat dan seberapa sering"), R(W(3, F("Email")), B("Berlangganan")), T("Tautan Kebijakan Privasi"))),
+  mk("cta-5", "CTA & Banners", "Banner Promo Hero (Zona Aman)", "Banner lebar dengan teks di zona aman tengah dan satu tombol.", ["Banner", "Promo", "SafeZone"],
+    "Promo atau kampanye di bagian atas halaman, juga untuk ukuran ekspor banner.",
+    "Create a wide promo banner (about 3:1, for example 1920x600). Keep headline, supporting line and the single CTA inside the central 70-80% safe zone so crops on small screens never cut them. Headline at least 32px, one CTA of at least 44px height with an action verb, text contrast 4.5:1 over the background, at most two typefaces.",
+    Bx("Zona aman tengah (70 sampai 80% lebar)", C(I("Latar: foto atau bentuk geometris"), T("Judul (min. 32px)"), B("Satu tombol aksi")))),
+  mk("cta-6", "CTA & Banners", "CTA Dua Pilihan", "Dua jalur jelas: coba sendiri atau bicara dengan tim.", ["CTA", "TwoPaths", "Conversion"],
+    "Pengunjung dengan kebutuhan berbeda (individu vs tim).",
+    "Design a closing CTA with two clearly different paths side by side. Each card has a title naming who it is for, one sentence, and one button; only one card uses the filled primary button. Write button labels as concrete actions, for example 'Create a free account' and 'Book a walkthrough'.",
+    G(2, Bx("Untuk individu", T("Judul"), T("Satu kalimat"), B("Buat akun gratis")), Bx("Untuk tim", T("Judul"), T("Satu kalimat"), O("Jadwalkan demo")))),
+];

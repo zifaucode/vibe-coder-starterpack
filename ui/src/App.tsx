@@ -12,9 +12,19 @@ import MobileGlossary from "./pages/Design/MobileGlossary"
 import PromptLibrary from "./pages/Resources/PromptLibrary"
 import UiUxGuide from "./pages/Design/UiUxGuide"
 import AboutMe from "./pages/AboutMe"
+import ToolsPage from "./pages/Tools/ToolsPage"
+import { TOOL_SECTIONS, type ToolKind } from "./lib/toolsData"
 import CommandPalette from "./components/CommandPalette"
 import vcsLogo from "./assets/vcs-logo.png"
-import { LayoutDashboard, Pipette, Code, Boxes, Search, Fingerprint, Smartphone, BookOpen, Layers, Rocket, LayoutTemplate, Command, User } from "lucide-react"
+import { LayoutDashboard, Pipette, Code, Boxes, Search, Fingerprint, Smartphone, BookOpen, Layers, Rocket, LayoutTemplate, Command, User, Monitor, Bot, Puzzle, Plug, Wrench } from "lucide-react"
+
+const TOOL_MENU: { kind: ToolKind; icon: typeof Monitor }[] = [
+  { kind: "ide", icon: Monitor },
+  { kind: "agent", icon: Bot },
+  { kind: "skill", icon: Puzzle },
+  { kind: "mcp", icon: Plug },
+  { kind: "other", icon: Wrench },
+]
 
 export default function App() {
   const [appName, setAppName] = useState("VCS")
@@ -156,6 +166,21 @@ export default function App() {
           </Button>
 
           <div className="pt-6 pb-2 px-3">
+            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Tools</p>
+          </div>
+          {TOOL_MENU.map(({ kind, icon: Icon }) => (
+            <Button
+              key={kind}
+              onClick={() => setActiveTab(`tools-${kind}`)}
+              variant={activeTab === `tools-${kind}` ? "secondary" : "ghost"}
+              className={`justify-start font-medium h-10 px-3 ${activeTab === `tools-${kind}` ? "bg-black text-white hover:bg-black/80" : "text-gray-600 hover:text-black hover:bg-gray-100"}`}
+            >
+              <Icon className="mr-3 h-4 w-4" />
+              {TOOL_SECTIONS[kind].title}
+            </Button>
+          ))}
+
+          <div className="pt-6 pb-2 px-3">
             <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Developer</p>
           </div>
           <Button 
@@ -215,6 +240,7 @@ export default function App() {
         {activeTab === "mobile-glossary" && <MobileGlossary />}
         {activeTab === "prompt-library" && <PromptLibrary />}
         {activeTab === "ui-ux-guide" && <UiUxGuide />}
+        {activeTab.startsWith("tools-") && <ToolsPage key={activeTab} kind={activeTab.slice(6) as ToolKind} />}
         {activeTab === "about-me" && <AboutMe />}
       </main>
     </div>

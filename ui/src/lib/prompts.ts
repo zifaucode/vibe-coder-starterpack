@@ -1,3 +1,8 @@
+import type { Node } from "../components/Blueprint";
+import { BLUEPRINTS } from "./blueprints";
+import { MORE_A } from "./promptsMoreA";
+import { MORE_B } from "./promptsMoreB";
+import { MORE_C } from "./promptsMoreC";
 import { 
   SplitSquareHorizontal, 
   SquareAsterisk, 
@@ -39,7 +44,12 @@ export type Category =
   | "Footers" 
   | "E-Commerce" 
   | "Modals & Popups" 
-  | "CTA & Banners";
+  | "CTA & Banners"
+  | "Content & Blog"
+  | "Cards & Lists"
+  | "Data & Tables"
+  | "Onboarding & States"
+  | "Settings & Profile";
 
 export interface PromptItem {
   id: string;
@@ -47,11 +57,15 @@ export interface PromptItem {
   description: string;
   category: Category;
   tags: string[];
-  icon: any;
+  icon?: any;
   promptText: string;
+  /** Satu kalimat: komponen ini cocok untuk apa. */
+  use?: string;
+  /** Kerangka berlabel; untuk item bawaan diambil dari blueprints.ts. */
+  bp?: Node;
 }
 
-export const PROMPTS: PromptItem[] = [
+const BASE: PromptItem[] = [
   // HERO SECTIONS
   {
     id: "hero-1",
@@ -408,6 +422,8 @@ export const PROMPTS: PromptItem[] = [
   }
 ];
 
+export const PROMPTS: PromptItem[] = [...BASE, ...MORE_A, ...MORE_B, ...MORE_C].map((p) => ({ ...p, bp: p.bp ?? BLUEPRINTS[p.id] }));
+
 export const CATEGORIES: Category[] = [
   "All", 
   "Hero Sections", 
@@ -420,5 +436,10 @@ export const CATEGORIES: Category[] = [
   "Footers", 
   "E-Commerce", 
   "Modals & Popups", 
-  "CTA & Banners"
+  "CTA & Banners",
+  "Content & Blog",
+  "Cards & Lists",
+  "Data & Tables",
+  "Onboarding & States",
+  "Settings & Profile"
 ];
