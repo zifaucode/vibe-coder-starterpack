@@ -9,7 +9,7 @@ call pnpm run build
 cd ..
 
 echo [2/3] Cleaning old build artifacts...
-taskkill /F /IM VibeCoderStarterpack.exe /T 2>nul
+taskkill /F /IM VibeCoderStarterpack_Portable.exe /T 2>nul
 rmdir /S /Q build 2>nul
 rmdir /S /Q dist 2>nul
 
